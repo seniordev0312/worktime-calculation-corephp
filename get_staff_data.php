@@ -21,7 +21,7 @@
   if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-      echo json_encode($row);
+      if($row['LEFT'] == '0000-00-00') echo json_encode($row);
     }
     // echo json_encode($result);
     // echo json_encode($result);
