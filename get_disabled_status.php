@@ -1,4 +1,5 @@
 <?php
+
   $servername = "localhost";
   $username = "root";
   $password = "";
@@ -14,26 +15,22 @@
     die("Connection failed: "
         . $conn->connect_error);
   }
+for($i = 0; $i < count($_GET['sid']); $i ++) {
 
-  $sql = "SELECT * FROM cm_ho_staff";
-
+  $id = $_GET['sid'][$i];
+  $sql = "SELECT * FROM cm_ho_working_plans WHERE STAFF_ID = '{$id}'";
   $result = $conn->query($sql);
-  $final_result = [];
-
-  if ($result->num_rows > 0) {
-    // output data of each row
+  $status = "0";
+  if($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
-      if($row['LEFT'] == '0000-00-00') {
-        
-        echo json_encode($row);
+      if($row['WORK_DATE'] == date("Y-m-d")) {
+        $status = "1";
+        break;
+      } else {
+        continue;
       }
     }
-    // echo json_encode($result);
-    // echo json_encode($result);
-    // $final_result.push($result);
-  } else {
-    echo "0 results";
   }
-  $conn->close();
-  // echo $final_result;
+  echo $status . ',';
+}
 ?>
