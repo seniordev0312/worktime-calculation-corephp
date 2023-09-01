@@ -13,22 +13,24 @@
     die("Connection failed: "
         . $conn->connect_error);
   }
-  $sql = "SELECT * FROM cm_ho_staff";
 
-  $result = $conn->query($sql);
-  $final_result = [];
+  echo "database connected"
+  // $sql = "SELECT * FROM cm_ho_staff";
 
-  if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-      if($row['LEFT'] == '0000-00-00') echo json_encode($row);
-    }
-    // echo json_encode($result);
-    // echo json_encode($result);
-    // $final_result.push($result);
-  } else {
-    echo "0 results";
-  }
-  $conn->close();
+  // $result = $conn->query($sql);
+  // $final_result = [];
+
+  // if ($result->num_rows > 0) {
+  //   // output data of each row
+  //   while($row = $result->fetch_assoc()) {
+  //     if($row['LEFT'] == '0000-00-00') echo json_encode($row);
+  //   }
+  //   // echo json_encode($result);
+  //   // echo json_encode($result);
+  //   // $final_result.push($result);
+  // } else {
+  //   echo "0 results";
+  // }
+  // $conn->close();
   // echo $final_result;
 ?>
