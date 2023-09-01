@@ -1,22 +1,23 @@
 <?php
-  $servername = "localhost";
-  $username = "root";
-  $password = "";
-  $databasename = "time";
+echo "success";
+  // $servername = "localhost";
+  // $username = "root";
+  // $password = "";
+  // $databasename = "time";
    
-  // Connection
-  $conn = new mysqli($servername,$username, $password, $databasename);
+  // // Connection
+  // $conn = new mysqli($servername,$username, $password, $databasename);
    
-  // For checking if connection is
-  // successful or not
-  if ($conn->connect_error) {
-    die("Connection failed: "
-        . $conn->connect_error);
-  echo "connection failed";
+  // // For checking if connection is
+  // // successful or not
+  // if ($conn->connect_error) {
+  //   die("Connection failed: "
+  //       . $conn->connect_error);
+  // echo "connection failed";
 
-  }
+  // }
 
-  echo "database connected"
+  // echo "database connected"
   // $sql = "SELECT * FROM cm_ho_staff";
 
   // $result = $conn->query($sql);
