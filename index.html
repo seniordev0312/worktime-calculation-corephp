@@ -178,7 +178,7 @@ function getInitialContent() {
         i++;
       }
       console.log(result_array[0].status);
-      let sids = []
+      let sids = [];
       for(let i = 0; i < result_array.length; i++) {
         sids.push(result_array[i].SID);
       }
@@ -199,34 +199,34 @@ function getInitialContent() {
               status_array.push(true);
             }
           }
-          $.ajax({
-            url: "get_stop_disabled_status.php",
-            type: "GET", //send it through get method
-            data: { 
-              sid: sids, 
-            },
-            success: function(response) {
-              let response_array = response.split(',');
-              response_array.pop();
-              for(let i = 0; i < response_array.length; i++) {
-                if(response_array[i] === '0') {
-                  status_stop_array.push(false);
-                } else if(response_array[i] === '1') {
-                  status_stop_array.push(true);
-                }
-              }
-              console.log('status stop array', status_stop_array);
-              //Do Something
-              displayContent();
+          // $.ajax({
+          //   url: "get_stop_disabled_status.php",
+          //   type: "GET", //send it through get method
+          //   data: { 
+          //     sid: sids, 
+          //   },
+          //   success: function(response) {
+          //     let response_array = response.split(',');
+          //     response_array.pop();
+          //     for(let i = 0; i < response_array.length; i++) {
+          //       if(response_array[i] === '0') {
+          //         status_stop_array.push(false);
+          //       } else if(response_array[i] === '1') {
+          //         status_stop_array.push(true);
+          //       }
+          //     }
+          //     console.log('status stop array', status_stop_array);
+          //     //Do Something
+          //     displayContent();
 
-            },
-            error: function(xhr) {
-              //Do Something to handle error
-            }
-          });
+          //   },
+          //   error: function(xhr) {
+          //     //Do Something to handle error
+          //   }
+          // });
 
           //Do Something
-
+          displayContent();
         },
         error: function(xhr) {
           //Do Something to handle error
