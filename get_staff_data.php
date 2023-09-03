@@ -12,7 +12,7 @@
   if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-      if($row['LEFT'] == '0000-00-00' || !$row['LEFT']) {
+      if($row['LEFT'] == '0000-00-00') {
         
         echo json_encode($row);
       }
