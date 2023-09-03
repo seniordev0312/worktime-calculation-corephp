@@ -1,9 +1,9 @@
 <?php
 $servername = "localhost";
-$username = "root";
-// $username = "remote";
-$password = "";
-// $password = "Password123";
+// $username = "root";
+$username = "remote";
+// $password = "";
+$password = "Password123";
 $databasename = "time";
  
 // Connection
