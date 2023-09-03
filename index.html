@@ -182,6 +182,7 @@ function getInitialContent() {
       for(let i = 0; i < result_array.length; i++) {
         sids.push(result_array[i].SID);
       }
+      console.log('sids')
 
       $.ajax({
         url: "get_disabled_status.php",
