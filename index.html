@@ -83,9 +83,12 @@
 </body>
 
 <script type="text/javascript">
+  // Initialization for ES Users
+
 let pagination_index = 0;
 let result_array = [];
 let status_array = [];
+let status_stop_array = [];
 let selected_row = 0;
 
 function displayContent() {
@@ -103,7 +106,7 @@ function displayContent() {
       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">`+  `
         <button
           type="button"
-          onclick="openPinModal()"
+          onclick="openPinModal(${item.SID})"
           ${status_array[pagination_index * 5 + index] ? 'disabled' : ''}
           class="rounded-md disabled:opacity-25 bg-slate-50 px-10 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-200"
         >
@@ -113,8 +116,8 @@ function displayContent() {
       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
         <button
           type="button"
-          onclick="stopPinModal()"
-          ${!status_array[pagination_index * 5 + index] ? 'disabled' : 'disabled'}
+          onclick="stopPinModal(${item.SID})"
+          ${!status_stop_array[pagination_index * 5 + index] ? 'disabled' : ''}
           class="rounded-md disabled:opacity-25 bg-red-200 px-10 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-red-300"
         >
           Stop
@@ -154,7 +157,7 @@ function displayContent() {
   resultContainer.innerHTML = htmlContent;
 }
 
-$(document).ready(function() {
+function getInitialContent() {
   $.ajax({
     type: "GET",
     url: 'get_staff_data.php',
@@ -188,7 +191,6 @@ $(document).ready(function() {
         },
         success: function(response) {
           let response_array = response.split(',');
-          console.log(response_array)
           response_array.pop();
           for(let i = 0; i < response_array.length; i++) {
             if(response_array[i] === '0') {
@@ -197,9 +199,33 @@ $(document).ready(function() {
               status_array.push(true);
             }
           }
-          console.log('status array', status_array);
+          $.ajax({
+            url: "get_stop_disabled_status.php",
+            type: "GET", //send it through get method
+            data: { 
+              sid: sids, 
+            },
+            success: function(response) {
+              let response_array = response.split(',');
+              response_array.pop();
+              for(let i = 0; i < response_array.length; i++) {
+                if(response_array[i] === '0') {
+                  status_stop_array.push(false);
+                } else if(response_array[i] === '1') {
+                  status_stop_array.push(true);
+                }
+              }
+              console.log('status stop array', status_stop_array);
+              //Do Something
+              displayContent();
+
+            },
+            error: function(xhr) {
+              //Do Something to handle error
+            }
+          });
+
           //Do Something
-          displayContent();
 
         },
         error: function(xhr) {
@@ -213,6 +239,11 @@ $(document).ready(function() {
       // console.log(result_array);
     }
   });
+}
+
+$(document).ready(function() {
+  getInitialContent();
+ 
 })
 
 function previous() {
@@ -225,12 +256,13 @@ function next() {
   displayContent();
 }
 
-function openPinModal() {
+function openPinModal(sid) {
   const container = document.getElementById("modal");
   const htmlContent = `<div class="relative w-full max-w-md] max-h-full">
   <div class="relative bg-white rounded-lg shadow min-h-[80% dark:bg-gray-700">
     <button
       type="button"
+      onclick="closePinModal()"
       class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
       data-modal-hide="authentication-modal"
     >
@@ -274,6 +306,7 @@ function openPinModal() {
 
       <button
         type="submit"
+        onclick="submitPasscode(${sid})"
         class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         Please start the time tracking with the PIN
@@ -283,9 +316,44 @@ function openPinModal() {
 </div>
   `;
   container.innerHTML = htmlContent;
+
+  
 }
 
-function stopPinModal() {
+function submitPasscode(id) {
+  const passcode = document.getElementById("password").value;
+  // const id = id;
+  const data = {
+    passcode, id
+  };
+
+  $.ajax({
+    type: "POST",
+    url: 'match_passcode.php',
+    data: data,
+    success: function(response) {
+
+      const create_data = {
+        id
+      }
+      if(response == "1") {
+        $.ajax({
+          type: "POST",
+          url: 'start_timetrack.php',
+          data: create_data,
+          success: function(response) {
+            alert("time track successfuly started");
+            location.reload();
+          },
+        });
+      } else {
+        alert("passcode does not match");
+      }
+    },
+  });
+}
+
+function stopPinModal(stop_id) {
 
   const htmlContent = `<div class="relative w-full max-w-md max-h-full">
       <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -334,6 +402,7 @@ function stopPinModal() {
           <button
             data-modal-hide="popup-modal"
             type="button"
+            onclick="closeTimetrack(${stop_id})"
             class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center mr-2"
           >
             Yes, I'm sure
@@ -341,6 +410,7 @@ function stopPinModal() {
           <button
             data-modal-hide="popup-modal"
             type="button"
+            onclick="closePinModal()"
             class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
           >
             No, cancel
@@ -452,7 +522,25 @@ function openRequestModal() {
   document.getElementById("modal").innerHTML = htmlContent;
 }
 
+function closePinModal() {
+  document.getElementById("modal").innerHTML = '';
+}
 
+function closeTimetrack(stopped_id) {
+  const data = {
+    id: stopped_id
+  };
+  $.ajax({
+    type: "POST",
+    url: 'close_timetrack.php',
+    data: data,
+    success: function(response) {
+      console.log(response)
+      alert("successfully stopped");
+      location.reload();
+    }
+  });
+}
 
 </script>
 

@@ -1,10 +1,12 @@
 <?php
 
 include('db.php');
-   
-  // Connection
+
+if($_POST['passcode']) {
+
+    // Connection
   $conn = new mysqli($servername,$username, $password, $databasename);
-   
+
   // For checking if connection is
   // successful or not
   if ($conn->connect_error) {
@@ -12,22 +14,23 @@ include('db.php');
     die("Connection failed: "
         . $conn->connect_error);
   }
-for($i = 0; $i < count($_GET['sid']); $i ++) {
 
-  $id = $_GET['sid'][$i];
-  $sql = "SELECT * FROM cm_ho_working_plans WHERE STAFF_ID = '{$id}'";
+  $sql = "SELECT * FROM cm_ho_staff WHERE SID='{$_POST['id']}'";
   $result = $conn->query($sql);
-  $status = "0";
-  if($result->num_rows > 0) {
+
+  if ($result->num_rows > 0) {
+    // output data of each row
     while($row = $result->fetch_assoc()) {
-      if($row['WORK_DATE'] == date("Y-m-d")) {
-        $status = "1";
-        break;
+      if(strval($row['PERSONAL_PIN']) == strval($_POST['passcode'])) {
+        echo "1";
       } else {
-        continue;
+        echo "0";
       }
     }
+  } else {
+    echo "0 results";
   }
-  echo $status . ',';
+  $conn->close();
 }
+
 ?>

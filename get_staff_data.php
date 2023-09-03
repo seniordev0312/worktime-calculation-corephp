@@ -1,19 +1,8 @@
 <?php
-  $servername = "localhost";
-  $username = "root";
-  $password = "";
-  $databasename = "time";
+  include('db.php');
    
   // Connection
   $conn = new mysqli($servername,$username, $password, $databasename);
-   
-  // For checking if connection is
-  // successful or not
-  if ($conn->connect_error) {
-    echo "connection failed";
-    die("Connection failed: "
-        . $conn->connect_error);
-  }
 
   $sql = "SELECT * FROM cm_ho_staff";
 
