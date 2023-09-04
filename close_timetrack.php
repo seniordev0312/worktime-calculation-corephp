@@ -5,7 +5,6 @@ include('db.php');
 if($_POST['id']) {
   // Connection
   $conn = new mysqli($servername,$username, $password, $databasename);
-  echo $_POST['id'];
 
     // For checking if connection is
   // successful or not
@@ -15,13 +14,38 @@ if($_POST['id']) {
         . $conn->connect_error);
   }
   $date_time = date("h:i:s");
+  $date_day = date("Y-m-d");
 
-  $sql = "UPDATE cm_ho_working_plans SET TIME_END='{$date_time}' WHERE STAFF_ID={$_POST['id']}";
-  $result = $conn->query($sql);
-  if($result->num_rows > 0) {
-    echo "1";
+  $sql_select = "SELECT * FROM cm_ho_working_plans WHERE STAFF_ID = '{$_POST['id']}' AND WORK_DATE = '$date_day'";
+  $result_select = $conn->query($sql_select);
+  if ($result_select->num_rows > 0) {
+    while ($row = $result_select->fetch_assoc()) {
+      // Access the data from the row
+      $work_hours = 0;
+      $total_hour = $row['HOURS_TOTAL'];
+      $hrs = round(abs(strtotime($date_time) - strtotime($row['TIME_START'])) / 3600, 2);
+      if($total_hour == 0.00 || null) {
+        if($hrs <= 8.00) $work_hours = $hrs;
+        else $work_hours = 8.00;
+      } else {
+        if($hrs <= 8.00) $work_hours = $hrs;
+        else if($hrs > 8.00 && $hrs < 9.00) $work_hours = 8.00;
+        else $work_hours = $hrs - 1;
+      }
+      
+      // Update the row in the database
+      $updateQuery = "UPDATE cm_ho_working_plans SET HOURS_WORK='$work_hours', TIME_END='$date_time' WHERE STAFF_ID ='{$_POST['id']}' AND WORK_DATE = '$date_day'";
+      $updateResult = $conn->query($updateQuery);
+      
+      if (!$updateResult) {
+          echo "0";
+      } else {
+        echo "1";
+      }
+      echo $row['TIME_START'];
+    }
   } else {
-    echo "0";
+      echo "No records found.";
   }
 
   $conn->close();

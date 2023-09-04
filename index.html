@@ -126,7 +126,7 @@ function displayContent() {
       <td class="relative whitespace-nowrap py-4 text-sm font-medium ">
         <button
           type="button"
-          onclick="openRequestModal()"
+          onclick="openRequestModal(${item.SID})"
           class="rounded-md bg-slate-100 px-10 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
         >
           Request
@@ -429,7 +429,7 @@ function closeStopModal() {
   document.getElementById("modal").innerHTML = '';
 }
 
-function openRequestModal() {
+function openRequestModal(request_id) {
 
   const htmlContent = `
   
@@ -466,7 +466,7 @@ function openRequestModal() {
           <input
             type="text"
             name="text"
-            id="text"
+            id="name"
             placeholder="Name"
             class="bg-gray-50 flex-1 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             required
@@ -474,23 +474,19 @@ function openRequestModal() {
           <input
             type="text"
             name="text"
-            id="text"
+            id="surname"
             placeholder="Surname"
             class="bg-gray-50 border flex-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             required
           />
         </div>
-        <input class="hidden" type="email" name="Contact-Email" value="info@cutman-friseur.de" /> 
-        <div class="flex flex-row gap-10">
-          <div class="flex-1">
-            <input type="date" class="bg-gray-50 border flex-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
-          </div>
+        <div class="flex flex-row gap-10 ">
           <input
             type="text"
             name="text"
             id="hour"
             placeholder="Hours"
-            class="bg-gray-50 border focus:placeholder:opacity-50 flex-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            class="bg-gray-50 flex-1 p-2.5 border focus:placeholder:opacity-50 flex-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             required
           />
 
@@ -498,6 +494,7 @@ function openRequestModal() {
 
         <button
           type="submit"
+          onclick="request(${request_id})"
           class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
           Submit the request to admin
@@ -509,6 +506,25 @@ function openRequestModal() {
   `
 
   document.getElementById("modal").innerHTML = htmlContent;
+}
+
+function request(request_id) {
+  const name = document.getElementById("name").value;
+  const surname = document.getElementById("surname").value;
+  const hours = document.getElementById("hour").value;
+  const data = {
+    id: request_id, name, surname, hours
+  };
+  $.ajax({
+    type: "POST",
+    url: 'request_time.php',
+    data: data,
+    success: function(response) {
+      console.log('request',response);
+      // alert("successfully stopped");
+      // location.reload();
+    }
+  });
 }
 
 function closePinModal() {
