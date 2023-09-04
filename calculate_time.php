@@ -25,9 +25,10 @@ if ($result->num_rows > 0) {
       $minutes = round(abs(strtotime($date_time) - strtotime($row['TIME_START'])) / 60) - 60*$hrs;
       if($hrs == 0) {
         echo "". $minutes . " minutes";
-      } 
-      if($minutes == 0) {
+      } else if($minutes == 0) {
         echo $hrs . " hours";
+      } else {
+        echo $hrs . "hours ". $minutes . "minutes";
       }
     }
     
