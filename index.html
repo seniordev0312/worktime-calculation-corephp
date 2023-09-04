@@ -147,6 +147,8 @@ function displayContent() {
       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
         <button
           type="button"
+          onclick="openTimeTrackModal(${item.SID})"
+          ${!status_stop_array[pagination_index * 5 + index] ? 'disabled' : ''}
           class="rounded-md disabled:opacity-25 bg-slate-50 px-10 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-200"
         >
           TimeTrack
@@ -227,7 +229,6 @@ function getInitialContent() {
           });
 
           //Do Something
-          displayContent();
         },
         error: function(xhr) {
           //Do Something to handle error
@@ -460,7 +461,7 @@ function openRequestModal() {
       <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
         Request more times to log
       </h3>
-      <form class="space-y-6" action="#">
+      <form class="space-y-6" action="mailto:smtp.ionos.de">
         <div class="flex flex-row gap-10">
           <input
             type="text"
@@ -473,29 +474,16 @@ function openRequestModal() {
           <input
             type="text"
             name="text"
-            id="texxt"
+            id="text"
             placeholder="Surname"
             class="bg-gray-50 border flex-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             required
           />
         </div>
+        <input class="hidden" type="email" name="Contact-Email" value="info@cutman-friseur.de" /> 
         <div class="flex flex-row gap-10">
           <div class="flex-1">
-            <div
-              class="relative"
-              data-te-datepicker-init
-              data-te-format="dd, mmm, yyyy"
-              data-te-input-wrapper-init>
-              <input
-                type="text"
-                class="peer block min-h-[auto] bg-gray-50 w-full leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-50 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0 bg-gray-50 border flex-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                placeholder="Select a date" />
-              <label
-                for="floatingInput"
-                class="pointer-events-none absolute left-3 top-0 mb-0 max-w-[90%] origin-[0_0] focus:placeholder:opacity-50 truncate pt-[0.37rem] leading-[1.6] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[0.9rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[0.9rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-primary"
-                >Select a date</label
-              >
-            </div>
+            <input type="date" class="bg-gray-50 border flex-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
           </div>
           <input
             type="text"
@@ -539,6 +527,36 @@ function closeTimetrack(stopped_id) {
       console.log(response)
       alert("successfully stopped");
       location.reload();
+    }
+  });
+}
+
+function openTimeTrackModal(timetrack_id) {
+  $.ajax({
+    url: "calculate_time.php",
+    type: "GET", //send it through get method
+    data: { 
+      id: timetrack_id, 
+    },
+    success: function(response) {
+      console.log('timetrack', response);
+      alert(response)
+      // let response_array = response.split(',');
+      // response_array.pop();
+      // for(let i = 0; i < response_array.length; i++) {
+      //   if(response_array[i] === '0') {
+      //     status_stop_array.push(false);
+      //   } else if(response_array[i] === '1') {
+      //     status_stop_array.push(true);
+      //   }
+      // }
+      // console.log('status stop array', status_stop_array);
+      // //Do Something
+      // displayContent();
+
+    },
+    error: function(xhr) {
+      //Do Something to handle error
     }
   });
 }
