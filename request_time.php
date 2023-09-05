@@ -19,7 +19,7 @@ $mail->Password = $env['SMTP_PASS'];
 //If SMTP requires TLS encryption then set it
 $mail->SMTPSecure = "tls";                       
 //Set TCP port to connect to
-$mail->Port = $env['SMTP_PORT'];                    
+$mail->Port = int($env['SMTP_PORT']);                    
 $mail->From = $env['SENDER_MAIL'];
 $mail->FromName = $_GET['name'] . " ". $_GET['surname'];
 $mail->addAddress($env['RECEIVER_MAIL'], "Ugur");
