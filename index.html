@@ -515,7 +515,7 @@ function request(request_id) {
     id: request_id, name, surname, hours
   };
   $.ajax({
-    type: "POST",
+    type: "GET",
     url: 'request_time.php',
     data: data,
     success: function(response) {

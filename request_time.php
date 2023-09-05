@@ -19,7 +19,7 @@ $mail->Password = $env['SMTP_PASS'];
 //If SMTP requires TLS encryption then set it
 $mail->SMTPSecure = "tls";                       
 //Set TCP port to connect to
-$mail->Port = int($env['SMTP_PORT']);                    
+$mail->Port = (int)$env['SMTP_PORT'];                    
 $mail->From = $env['SENDER_MAIL'];
 $mail->FromName = $_GET['name'] . " ". $_GET['surname'];
 $mail->addAddress($env['RECEIVER_MAIL'], "Ugur");
@@ -27,12 +27,12 @@ $mail->isHTML(true);
 $mail->Subject = "Time Request";
 $mail->Body = "<h2>Hi, Ugur!</h2>";
 $mail->AltBody = "I want to add " .$_GET['hours']. " more today. Please allow me.";
+
 try {
   $mail->send();
   echo 'Request submitted successfully.';
 } catch (Exception $e) {
   echo 'Email could not be sent. Error: ' . $mail->ErrorInfo;
 }
-echo $env['SMTP_HOST'];
 
 ?>
