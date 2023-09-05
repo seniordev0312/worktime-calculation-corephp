@@ -52,7 +52,7 @@ try {
     $updateResult = $conn->query($updateQuery);
     echo "0";
   } else {
-    $createQuery = "INSERT INTO cm_ho_working_plans (HOURS_TOTAL, WORK_DATE) VALUES ('{$hour}', '{$_GET["date"]}')";
+    $createQuery = "INSERT INTO cm_ho_working_plans (HOURS_TOTAL, WORK_DATE, STAFF_ID) VALUES ('{$hour}', '{$_GET["date"]}'), '{$_GET['id']}'";
     $conn->query($createQuery);
     echo "1";
   }
