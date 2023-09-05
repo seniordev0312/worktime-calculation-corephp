@@ -1,4 +1,5 @@
 <?php
+require 'envParse.php';
 require 'vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
