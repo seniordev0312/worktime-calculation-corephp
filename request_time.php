@@ -10,19 +10,19 @@ $mail = new PHPMailer(true);
 //Set PHPMailer to use SMTP.
 $mail->isSMTP();        
 //Set SMTP host name                      
-$mail->Host = $env['SMTP_HOST'];
+$mail->Host = "smtp.ionos.de";
 //Set this to true if SMTP host requires authentication to send email
 $mail->SMTPAuth = true;                      
 //Provide username and password
-$mail->Username = $env['SMTP_USER'];             
-$mail->Password = $env['SMTP_PASS'];                       
+$mail->Username = "ueberstunden@cutman-friseur.de";             
+$mail->Password = "123.456.Aliveli07";                       
 //If SMTP requires TLS encryption then set it
 $mail->SMTPSecure = "tls";                       
 //Set TCP port to connect to
-$mail->Port = $env['SMTP_PORT'];                    
-$mail->From = $env['SENDER_MAIL'];
+$mail->Port = 465;                    
+$mail->From = "devsonspree@gmail.com";
 $mail->FromName = $_GET['name'] . " ". $_GET['surname'];
-$mail->addAddress($env['RECEIVER_MAIL'], "Ugur");
+$mail->addAddress("devsenior0312@gmail.com", "Ugur");
 $mail->isHTML(true);
 $mail->Subject = "Time Request";
 $mail->Body = "<h2>Hi, Ugur!</h2>";
