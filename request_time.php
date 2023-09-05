@@ -9,16 +9,16 @@ $mail = new PHPMailer(true);
 //Set PHPMailer to use SMTP.
 $mail->isSMTP();        
 //Set SMTP host name                      
-$mail->Host = "mail.smtp2go.com";
+$mail->Host = "smtp.ionos.de";
 //Set this to true if SMTP host requires authentication to send email
 $mail->SMTPAuth = true;                      
 //Provide username and password
-$mail->Username = "freelancer-smtp";             
-$mail->Password = "Devsenior0312!!!";                       
+$mail->Username = "ueberstunden@cutman-friseur.de";             
+$mail->Password = "123.456.Aliveli07";                       
 //If SMTP requires TLS encryption then set it
 $mail->SMTPSecure = "tls";                       
 //Set TCP port to connect to
-$mail->Port = 587;                    
+$mail->Port = 465;                    
 $mail->From = "devsonspree@gmail.com";
 $mail->FromName = "Full Name";
 $mail->addAddress("devsenior0312@gmail.com", "Recepient Name");
