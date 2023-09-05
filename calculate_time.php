@@ -25,8 +25,8 @@ if ($result->num_rows > 0) {
       echo round(abs($row['HOURS_WORK'])) . " hours ". round(60*($row['HOURS_WORK'] - round(abs($row['HOURS_WORK'])))). " minutes timetracked";
     } 
     else {
-      $hrs = round(abs(strtotime($date_time) - strtotime($row['TIME_START'])) / 3600);
-      $minutes = round(abs(strtotime($date_time) - strtotime($row['TIME_START'])) / 60) - 60*$hrs;
+      $hrs = round(abs(strtotime($date_time) - strtotime($row['TIME_START']) + $row['HOURS_WORK'] * 3600) / 3600);
+      $minutes = round(abs(strtotime($date_time) - strtotime($row['TIME_START']) + $row['HOURS_WORK'] * 3600) / 60) - 60*$hrs;
       if($hrs >= 9) {
         echo "You have overworked " . round(abx($hrs - 9)) . "hours. Please Submit the request";
       } else {
@@ -42,7 +42,6 @@ if ($result->num_rows > 0) {
           }
         }
       }
-      
     }
     
   }

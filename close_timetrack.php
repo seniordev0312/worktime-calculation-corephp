@@ -32,9 +32,10 @@ if($_POST['id']) {
         else if($hrs > 8.00 && $hrs < 9.00) $work_hours = 8.00;
         else $work_hours = $hrs - 1;
       }
+      $worked_hours = $work_hours + $row['HOURS_WORK'];
       
       // Update the row in the database
-      $updateQuery = "UPDATE cm_ho_working_plans SET HOURS_WORK='$work_hours', TIME_END='$date_time' WHERE STAFF_ID ='{$_POST['id']}' AND WORK_DATE = '$date_day'";
+      $updateQuery = "UPDATE cm_ho_working_plans SET HOURS_WORK='$worked_hours', TIME_END='$date_time' WHERE STAFF_ID ='{$_POST['id']}' AND WORK_DATE = '$date_day'";
       $updateResult = $conn->query($updateQuery);
       
       if (!$updateResult) {

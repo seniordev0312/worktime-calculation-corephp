@@ -107,7 +107,7 @@ function displayContent() {
         <button
           type="button"
           onclick="openPinModal(${item.SID})"
-          ${status_array[pagination_index * 5 + index] ? 'disabled' : ''}
+          ${status_stop_array[pagination_index * 5 + index] ? 'disabled' : ''}
           class="rounded-md disabled:opacity-25 bg-slate-50 px-10 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-200"
         >
           Start
@@ -344,6 +344,7 @@ function submitPasscode(id) {
           url: 'start_timetrack.php',
           data: create_data,
           success: function(response) {
+            console.log(response);
             alert("time track successfuly started");
             location.reload();
           },
@@ -482,6 +483,15 @@ function openRequestModal(request_id) {
         </div>
         <div class="flex my-5 flex-row gap-10 ">
           <input
+            type="date"
+            name="date"
+            id="date"
+            placeholder="Hours"
+            class="bg-gray-50 flex-1 p-2.5 border focus:placeholder:opacity-50 flex-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            required
+          />
+
+          <input
             type="text"
             name="text"
             id="hour"
@@ -510,9 +520,9 @@ function request(request_id) {
   const name = document.getElementById("name").value;
   const surname = document.getElementById("surname").value;
   const hours = document.getElementById("hour").value;
-  console.log(name)
+  const date = document.getElementById("date").value;
   const data = {
-    id: request_id, name, surname, hours
+    id: request_id, name, surname, hours, date
   };
   $.ajax({
     type: "GET",
@@ -520,8 +530,8 @@ function request(request_id) {
     data: data,
     success: function(response) {
       console.log('request',response);
-      alert(response);
-      location.reload();
+      // alert(response);
+      // location.reload();
     }
   });
 }
