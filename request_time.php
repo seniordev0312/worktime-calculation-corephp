@@ -10,19 +10,19 @@ $mail = new PHPMailer(true);
 //Set PHPMailer to use SMTP.
 $mail->isSMTP();        
 //Set SMTP host name                      
-$mail->Host = "mail.smtp2go.com";
+$mail->Host = $env['SMTP_HOST'];
 //Set this to true if SMTP host requires authentication to send email
 $mail->SMTPAuth = true;                      
 //Provide username and password
-$mail->Username = "freelancer-smtp";             
-$mail->Password = "Devsenior0312!!!";                       
+$mail->Username = $env['SMTP_USER'];             
+$mail->Password = $env['SMTP_PASS'];                       
 //If SMTP requires TLS encryption then set it
 $mail->SMTPSecure = "tls";                       
 //Set TCP port to connect to
-$mail->Port = 587;                    
-$mail->From = "devsonspree@gmail.com";
+$mail->Port = $env['SMTP_PORT'];                    
+$mail->From = $env['SENDER_MAIL'];
 $mail->FromName = $_GET['name'] . " ". $_GET['surname'];
-$mail->addAddress("devsenior0312@gmail.com", "Ugur");
+$mail->addAddress($env['RECEIVER_MAIL'], "Ugur");
 $mail->isHTML(true);
 $mail->Subject = "Time Request";
 $mail->Body = "<h2>Hi, Ugur!</h2>";
