@@ -19,7 +19,7 @@ if($_POST['id']) {
   $result_check = $conn->query($sql_check);
   if($result_check->num_rows > 0) {
     $id = (int) $_POST["id"];
-    $updateQuery = "UPDATE cm_ho_working_plans SET TIME_START = '{$date_time}' WHERE STAFF_ID = '{$id}' AND WORK_DATE = '{$date_day}'";
+    $updateQuery = "UPDATE cm_ho_working_plans SET TIME_START = '{$date_time}', TIME_END = '{$end_time}' WHERE STAFF_ID = '{$id}' AND WORK_DATE = '{$date_day}'";
     $conn->query($updateQuery);
 
     echo "1";
