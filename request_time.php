@@ -10,7 +10,7 @@ $mail = new PHPMailer(true);
 //Set PHPMailer to use SMTP.
 $mail->isSMTP();        
 //Set SMTP host name                      
-$mail->Host = $env['HOST'];
+$mail->Host = $env['SMTP_HOST'];
 //Set this to true if SMTP host requires authentication to send email
 $mail->SMTPAuth = true;                      
 //Provide username and password
