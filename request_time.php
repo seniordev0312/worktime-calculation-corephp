@@ -35,3 +35,5 @@ else
 {
 echo "Message has been sent successfully";
 }
+
+?>
