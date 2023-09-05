@@ -1,8 +1,8 @@
 <?php
-require 'vendor/autoload.php';
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+require 'C:\PHPMailer\src\SMTP.php';
+require 'vendor/autoload.php';
 
 $mail = new PHPMailer(true);
 //Enable SMTP debugging.
