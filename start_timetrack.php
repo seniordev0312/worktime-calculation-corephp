@@ -18,30 +18,9 @@ if($_POST['id']) {
   $sql_check = "SELECT * FROM cm_ho_working_plans WHERE STAFF_ID = '{$_POST["id"]}' AND WORK_DATE = '{$date_day}'";
   $result_check = $conn->query($sql_check);
   if($result_check->num_rows > 0) {
-    $end_time="00:00:00";
     $id = (int) $_POST["id"];
-    // $updateQuery = "UPDATE cm_ho_working_plans SET TIME_START = '{$date_day}', TIME_END = '{$end_time}' WHERE STAFF_ID = '{$id}' AND WORK_DATE = '{$date_day}'";
-    // $conn->query($updateQuery);
-
-      // Prepare the SQL statement
-    $sql = "UPDATE cm_ho_working_plans SET TIME_START = ?, TIME_END = ? WHERE STAFF_ID = ? AND WORK_DATE = ?";
-
-    // Prepare the statement
-    $stmt = $conn->prepare($sql);
-
-    // Bind the parameters and execute the statement
-    $stmt->bind_param("ssss", $date_day, $end_time, $id, $date_day);
-    $stmt->execute();
-
-    // Check if the update was successful
-    if ($stmt->affected_rows > 0) {
-      echo "Update successful";
-    } else {
-      echo "Update failed";
-    }
-
-    // Close the statement and database connection
-    $stmt->close();
+    $updateQuery = "UPDATE cm_ho_working_plans SET TIME_START = '{$date_time}' WHERE STAFF_ID = '{$id}' AND WORK_DATE = '{$date_day}'";
+    $conn->query($updateQuery);
 
     echo "1";
   } else {
