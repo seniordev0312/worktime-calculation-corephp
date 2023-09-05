@@ -20,7 +20,7 @@ if($_POST['id']) {
   if($result_check->num_rows > 0) {
     $end_time="00:00:00";
     $id = (int) $_POST["id"];
-    $updateQuery = "UPDATE cm_ho_working_plans SET TIME_START='{$date_day}', STAFF_ID='{$_POST["id"]}', TIME_END='{$end_time}' WHERE STAFF_ID = '{$id}'";
+    $updateQuery = "UPDATE cm_ho_working_plans SET TIME_START='{$date_day}', STAFF_ID='{$_POST["id"]}', TIME_END='{$end_time}' WHERE STAFF_ID = '{$id}'' AND WORK_DATE = '{$date_day}'";
     $conn->query($updateQuery);
     echo "1";
   } else {
