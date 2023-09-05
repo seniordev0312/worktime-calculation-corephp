@@ -19,8 +19,8 @@ if($_POST['id']) {
   $result_check = $conn->query($sql_check);
   if($result_check->num_rows > 0) {
     $end_time="00:00:00";
-    $updateQuery = "UPDATE cm_ho_working_plans SET TIME_START='{$date_day}' WHERE STAFF_ID = '{$_POST["id"]}'";
-    $conn->query($updateQuery);
+    $sql = "INSERT INTO cm_ho_working_plans (STAFF_ID, WORK_DATE, TIME_START) VALUES ('{$_POST["id"]}', '{$date_day}', '{$date_time}')";
+    $result = $conn->query($sql);
     echo "1";
   } else {
     $sql = "INSERT INTO cm_ho_working_plans (STAFF_ID, WORK_DATE, TIME_START) VALUES ('{$_POST["id"]}', '{$date_day}', '{$date_time}')";
