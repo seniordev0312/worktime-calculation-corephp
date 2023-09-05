@@ -10,12 +10,12 @@ $mail->SMTPDebug = 3;
 //Set PHPMailer to use SMTP.
 $mail->isSMTP();        
 //Set SMTP host name                      
-$mail->Host = "smtp.ionos.de";
+$mail->Host = "mail.smtp2go.com";
 //Set this to true if SMTP host requires authentication to send email
 $mail->SMTPAuth = true;                      
 //Provide username and password
-$mail->Username = "ueberstunden@cutman-friseur.de";             
-$mail->Password = "123.456.Aliveli07";                       
+$mail->Username = "freelancer-smtp";             
+$mail->Password = "Devsenior0312!!!";                       
 //If SMTP requires TLS encryption then set it
 $mail->SMTPSecure = "tls";                       
 //Set TCP port to connect to
