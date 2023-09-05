@@ -1,6 +1,10 @@
 <?php
-require_once "vendor/autoload.php";
-$mail = new PHPMailer;
+require 'vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+$mail = new PHPMailer(true);
 //Enable SMTP debugging.
 $mail->SMTPDebug = 3;                           
 //Set PHPMailer to use SMTP.
@@ -18,7 +22,7 @@ $mail->SMTPSecure = "tls";
 $mail->Port = 465;                    
 $mail->From = "devsonspree@gmail.com";
 $mail->FromName = "Full Name";
-$mail->addAddress("devsenior@gmail.com", "Recepient Name");
+$mail->addAddress("devsenior0312@gmail.com", "Recepient Name");
 $mail->isHTML(true);
 $mail->Subject = "Subject Text";
 $mail->Body = "<i>Mail body in HTML</i>";
