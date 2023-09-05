@@ -10,19 +10,19 @@ $mail = new PHPMailer(true);
 //Set PHPMailer to use SMTP.
 $mail->isSMTP();        
 //Set SMTP host name                      
-$mail->Host = strval($env['SMTP_HOST']);
+$mail->Host = $env['SMTP_HOST'];
 //Set this to true if SMTP host requires authentication to send email
 $mail->SMTPAuth = true;                      
 //Provide username and password
-$mail->Username = strval($env['SMTP_USER']);             
-$mail->Password = strval($env['SMTP_PASS']);                       
+$mail->Username = $env['SMTP_USER'];             
+$mail->Password = $env['SMTP_PASS'];                       
 //If SMTP requires TLS encryption then set it
 $mail->SMTPSecure = "tls";                       
 //Set TCP port to connect to
 $mail->Port = int($env['SMTP_PORT']);                    
-$mail->From = strval($env['SENDER_MAIL']);
+$mail->From = $env['SENDER_MAIL'];
 $mail->FromName = $_GET['name'] . " ". $_GET['surname'];
-$mail->addAddress(strval($env['RECEIVER_MAIL']), "Ugur");
+$mail->addAddress($env['RECEIVER_MAIL'], "Ugur");
 $mail->isHTML(true);
 $mail->Subject = "Time Request";
 $mail->Body = "<h2>Hi, Ugur!</h2>";
@@ -33,5 +33,6 @@ try {
 } catch (Exception $e) {
   echo 'Email could not be sent. Error: ' . $mail->ErrorInfo;
 }
+echo $env['SMTP_HOST'];
 
 ?>
