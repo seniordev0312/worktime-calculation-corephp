@@ -31,44 +31,43 @@ $mail->isHTML(true);
 $mail->Subject = "Time Request";
 $mail->Body = "<h4>Hi, Ugur! I want to add more hours today. Please allow me.</h4>";
 
-// try {
-//   $conn = new mysqli($servername,$username, $password, $databasename);
-
-//   // For checking if connection is
-//   // successful or not
-//   if ($conn->connect_error) {
-//     echo "connection failed";
-//     die("Connection failed: "
-//         . $conn->connect_error);
-//   }
-//   $hour = (int)$_GET["hours"];
-//   echo $_GET["date"];
-//   $sql_check = "SELECT * FROM cm_ho_working_plans WHERE STAFF_ID = '{$_GET['id']}' AND WORK_DATE = '{$_GET["date"]}'";
-//   $result_check = $conn->query($sql_check);
-//   if($result_check) {
-//     $updateQuery = "UPDATE cm_ho_working_plans SET HOURS_TOTAL='$hour' WHERE STAFF_ID ='{$_GET['id']}' AND WORK_DATE = '$date_day'";
-
-//     $updateResult = $conn->query($updateQuery);
-//     // echo "0";
-//   } else {
-//     $createQuery = "INSERT INTO cm_ho_working_plans (HOURS_TOTAL, WORK_DATE, STAFF_ID) VALUES ('{$hour}', '{$_GET["date"]}'), '{$_GET['id']}'";
-//     $conn->query($createQuery);
-//     // echo "1";
-//   }
-
-  
-// } catch (Exception $e) {
-//   echo "Time track still not started";
-//   exit;
-// }
-
 try {
+  $conn = new mysqli($servername,$username, $password, $databasename);
+
+  // For checking if connection is
+  // successful or not
+  if ($conn->connect_error) {
+    echo "connection failed";
+    die("Connection failed: "
+        . $conn->connect_error);
+  }
+  $hour = (int)$_GET["hours"];
+  echo $_GET["date"];
+  $sql_check = "SELECT * FROM cm_ho_working_plans WHERE STAFF_ID = '{$_GET['id']}' AND WORK_DATE = '{$_GET["date"]}'";
+  $result_check = $conn->query($sql_check);
+  if($result_check) {
+    $updateQuery = "UPDATE cm_ho_working_plans SET HOURS_TOTAL='$hour' WHERE STAFF_ID ='{$_GET['id']}' AND WORK_DATE = '$date_day'";
+
+    $updateResult = $conn->query($updateQuery);
+    // echo "0";
+  } else {
+    $createQuery = "INSERT INTO cm_ho_working_plans (HOURS_TOTAL, WORK_DATE, STAFF_ID) VALUES ('{$hour}', '{$_GET["date"]}'), '{$_GET['id']}'";
+    $conn->query($createQuery);
+    // echo "1";
+  }
+  try {
   
-  $mail->send();
+    $mail->send();
+    
+    echo 'Request submitted successfully.';
+  } catch (Exception $e) {
+    echo 'Email could not be sent. Error: ' . $mail->ErrorInfo;
+  }
   
-  echo 'Request submitted successfully.';
 } catch (Exception $e) {
-  echo 'Email could not be sent. Error: ' . $mail->ErrorInfo;
+  echo "Time track still not started";
 }
+
+
 
 ?>
