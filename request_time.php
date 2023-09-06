@@ -44,7 +44,7 @@ try {
   $hour = (int)$_GET["hours"];
   $sql_check = "SELECT * FROM cm_ho_working_plans WHERE STAFF_ID = '{$_GET['id']}' AND WORK_DATE = '{$_GET["date"]}'";
   $result_check = $conn->query($sql_check);
-  if($result_check) {
+  if($result_check->num_rows > 0) {
     $updateQuery = "UPDATE cm_ho_working_plans SET HOURS_TOTAL='$hour' WHERE STAFF_ID ='{$_GET['id']}' AND WORK_DATE = '$date_day'";
 
     $updateResult = $conn->query($updateQuery);
