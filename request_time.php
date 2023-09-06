@@ -29,7 +29,7 @@ $mail->FromName = $_GET['name'] . " ". $_GET['surname'];
 $mail->addAddress($env['RECEIVER_MAIL'], "Ugur");
 $mail->isHTML(true);
 $mail->Subject = "Time Request";
-$mail->Body = "<h2>Hi, Ugur!</h2> <p>I want to add " .$_GET['hours']. " more today. Please allow me.</p>";
+$mail->Body = "<div><h2>Hi, Ugur!</h2><p>I want to add " .$_GET['hours']. " more today. Please allow me.</p></div> ";
 
 try {
   $conn = new mysqli($servername,$username, $password, $databasename);
