@@ -21,28 +21,14 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
   // output data of each row
   while($row = $result->fetch_assoc()) {
-    if($row['HOURS_WORK'] ) {
-      echo round(abs($row['HOURS_WORK'])) . " hours ". round(60*($row['HOURS_WORK'] - round(abs($row['HOURS_WORK'])))). " minutes timetracked";
-    } 
-    else {
+    
       $hrs = round(abs(strtotime($date_time) - strtotime($row['TIME_START']) + $row['HOURS_WORK'] * 3600) / 3600);
       $minutes = round(abs(strtotime($date_time) - strtotime($row['TIME_START']) + $row['HOURS_WORK'] * 3600) / 60) - 60*$hrs;
       if($hrs >= 9) {
-        echo $hrs . " hours timetracked";
+        echo ($hrs - 9) . " hours overworked. Please submit the request!";
       } else {
-        if($hrs < 1) {
-          echo "". $minutes . " minutes timetracked";
-        } else if($minutes == 0) {
-          echo $hrs . " hours timetracked";
-        } else {
-          if($hrs > 8) {
-            echo round(abx($hrs)) . "hours timetracked";
-          } else {
-            echo $hrs . "hours ". $minutes . "minutes timetracked";
-          }
-        }
+        echo "No overtime yet!";
       }
-    }
     
   }
 } else {

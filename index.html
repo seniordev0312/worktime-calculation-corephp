@@ -38,6 +38,9 @@
                     Status
                   </th>
                   <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">
+                    Report
+                  </th>
+                  <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">
                     Time Report
                   </th>
                 </tr>
@@ -147,6 +150,16 @@ function displayContent() {
       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
         <button
           type="button"
+          onclick="openReportModal(${item.SID})"
+          ${!status_array[pagination_index * 5 + index] ? 'disabled' : ''}
+          class="rounded-md disabled:opacity-25 bg-slate-50 px-10 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-200"
+        >
+          Report
+        </button>
+      </td>
+      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+        <button
+          type="button"
           onclick="openTimeTrackModal(${item.SID})"
           ${!status_array[pagination_index * 5 + index] ? 'disabled' : ''}
           class="rounded-md disabled:opacity-25 bg-slate-50 px-10 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-200"
@@ -179,12 +192,10 @@ function getInitialContent() {
         }
         i++;
       }
-      console.log(result_array[0].status);
       let sids = [];
       for(let i = 0; i < result_array.length; i++) {
         sids.push(result_array[i].SID);
       }
-      console.log('sids');
 
       $.ajax({
         url: "get_disabled_status.php",
@@ -218,7 +229,6 @@ function getInitialContent() {
                   status_stop_array.push(true);
                 }
               }
-              console.log('status stop array', status_stop_array);
               //Do Something
               displayContent();
 
@@ -235,10 +245,8 @@ function getInitialContent() {
         }
       });
 
-      console.log(result_array[0].status);
 
 
-      // console.log(result_array);
     }
   });
 }
@@ -344,7 +352,6 @@ function submitPasscode(id) {
           url: 'start_timetrack.php',
           data: create_data,
           success: function(response) {
-            console.log(response);
             alert("time track successfuly started");
             location.reload();
           },
@@ -431,6 +438,13 @@ function closeStopModal() {
 }
 
 function openRequestModal(request_id) {
+  let name, surname;
+  result_array.map((item, index) => {
+    if(request_id == item.SID) {
+      name = item.NAME_FIRST;
+      surname = item.NAME_LAST;
+    }
+  })
 
   const htmlContent = `
   
@@ -469,6 +483,7 @@ function openRequestModal(request_id) {
             name="text"
             id="name"
             placeholder="Name"
+            value=${name}
             class="bg-gray-50 flex-1 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             required
           />
@@ -476,6 +491,7 @@ function openRequestModal(request_id) {
             type="text"
             name="text"
             id="surname"
+            value=${surname}
             placeholder="Surname"
             class="bg-gray-50 border flex-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
             required
@@ -529,7 +545,6 @@ function request(request_id) {
     url: 'request_time.php',
     data: data,
     success: function(response) {
-      console.log('request',response);
       alert(response);
       location.reload();
     }
@@ -553,7 +568,6 @@ function closeTimetrack(stopped_id) {
     url: 'close_timetrack.php',
     data: data,
     success: function(response) {
-      console.log(response)
       alert("successfully stopped");
       location.reload();
     }
@@ -568,26 +582,39 @@ function openTimeTrackModal(timetrack_id) {
       id: timetrack_id, 
     },
     success: function(response) {
-      console.log('timetrack', response);
-      alert(response)
-      // let response_array = response.split(',');
-      // response_array.pop();
-      // for(let i = 0; i < response_array.length; i++) {
-      //   if(response_array[i] === '0') {
-      //     status_stop_array.push(false);
-      //   } else if(response_array[i] === '1') {
-      //     status_stop_array.push(true);
-      //   }
-      // }
-      // console.log('status stop array', status_stop_array);
-      // //Do Something
-      // displayContent();
-
+      alert(response);
+      closeTimeTrackModal();
     },
     error: function(xhr) {
       //Do Something to handle error
     }
   });
+}
+
+function closeTimeTrackModal() {
+  document.getElementById("modal").innerHTML = '';
+}
+
+function openReportModal(report_id) {
+  $.ajax({
+    url: "report_time.php",
+    type: "GET", //send it through get method
+    data: { 
+      id: report_id, 
+    },
+    success: function(response) {
+      alert(response);
+      closeReportModal();
+    },
+    error: function(xhr) {
+      //Do Something to handle error
+    }
+  });
+}
+
+
+function closeReportModal() {
+  document.getElementById("modal").innerHTML = '';
 }
 
 </script>
