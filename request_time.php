@@ -29,7 +29,7 @@ $mail->FromName = $_GET['name'] . " ". $_GET['surname'];
 $mail->addAddress($env['RECEIVER_MAIL'], "Ugur");
 $mail->isHTML(true);
 $mail->Subject = "Time Request";
-$body = "<h4>Hi, Ugur! <br> I want to add " .$_GET['hours']. "hours more today. Please allow me.</h4>";
+$body = "<h4>Hi, Ugur! <br> I want to add more hours today. Please allow me.</h4>";
 $mail->Body = $body;
 
 try {
