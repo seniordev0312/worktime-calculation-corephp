@@ -42,13 +42,12 @@ try {
         . $conn->connect_error);
   }
   $hour = (int)$_GET["hours"];
-  echo $_GET["date"];
   $sql_check = "SELECT * FROM cm_ho_working_plans WHERE STAFF_ID = '{$_GET['id']}' AND WORK_DATE = '{$_GET["date"]}'";
   $result_check = $conn->query($sql_check);
   if($result_check) {
-    // $updateQuery = "UPDATE cm_ho_working_plans SET HOURS_TOTAL='$hour' WHERE STAFF_ID ='{$_GET['id']}' AND WORK_DATE = '$date_day'";
+    $updateQuery = "UPDATE cm_ho_working_plans SET HOURS_TOTAL='$hour' WHERE STAFF_ID ='{$_GET['id']}' AND WORK_DATE = '$date_day'";
 
-    // $updateResult = $conn->query($updateQuery);
+    $updateResult = $conn->query($updateQuery);
     echo "0";
   } else {
     // $createQuery = "INSERT INTO cm_ho_working_plans (HOURS_TOTAL, WORK_DATE, STAFF_ID) VALUES ('{$hour}', '{$_GET["date"]}'), '{$_GET['id']}'";
