@@ -48,18 +48,20 @@ try {
     $updateQuery = "UPDATE cm_ho_working_plans SET HOURS_TOTAL='$hour' WHERE STAFF_ID ='{$_GET['id']}' AND WORK_DATE = '$date_day'";
 
     $updateResult = $conn->query($updateQuery);
+    echo "0";
   } else {
-    $createQuery = "INSERT INTO cm_ho_working_plans HOURS_TOTAL, WORK_DATE, STAFF_ID VALUES '{$hour}', '{$_GET["date"]}'), '{$_GET['id']}'";
+    $createQuery = "INSERT INTO cm_ho_working_plans (HOURS_TOTAL, WORK_DATE, STAFF_ID) VALUES ('{$hour}', '{$_GET["date"]}'), '{$_GET['id']}')";
     $conn->query($createQuery);
+    echo "1";
   }
-  try {
+  // try {
   
-    $mail->send();
+  //   $mail->send();
     
-    echo 'Request submitted successfully.';
-  } catch (Exception $e) {
-    echo 'Email could not be sent. Error: ' . $mail->ErrorInfo;
-  }
+  //   echo 'Request submitted successfully.';
+  // } catch (Exception $e) {
+  //   echo 'Email could not be sent. Error: ' . $mail->ErrorInfo;
+  // }
   
 } catch (Exception $e) {
   echo "Time track still not started";
