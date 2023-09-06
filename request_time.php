@@ -49,11 +49,11 @@ try {
     $updateQuery = "UPDATE cm_ho_working_plans SET HOURS_TOTAL='$hour' WHERE STAFF_ID ='{$_GET['id']}' AND WORK_DATE = '$date_day'";
 
     $updateResult = $conn->query($updateQuery);
-    echo "0";
+    // echo "0";
   } else {
     $createQuery = "INSERT INTO cm_ho_working_plans (HOURS_TOTAL, WORK_DATE, STAFF_ID) VALUES ('{$hour}', '{$_GET["date"]}'), '{$_GET['id']}'";
     $conn->query($createQuery);
-    echo "1";
+    // echo "1";
   }
 
   
