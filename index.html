@@ -151,7 +151,7 @@ function displayContent() {
       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
         <button
           type="button"
-          onclick="openReportModal(${item.SID})"
+          onclick="openReportModal(${item.SID}, ${index})"
           class="rounded-md disabled:opacity-25 bg-slate-50 px-10 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-200"
         >
           Report
@@ -673,12 +673,12 @@ function closeTimeTrackModal() {
 
 
 
-function openReportModal(report_id) {
+function openReportModal(staff_id, report_id) {
   $.ajax({
     url: "report_time.php",
     type: "GET", //send it through get method
     data: { 
-      id: report_id, 
+      id: staff_id, 
     },
     success: function(response) {
       let i = 0;

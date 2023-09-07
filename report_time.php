@@ -24,10 +24,9 @@ if ($result->num_rows > 0) {
     if( $row['HOURS_TOTAL'] != null){
       echo json_encode($row);
     }
-    
   }
 } else {
-  echo "0 results";
+  echo "";
 }
 
 ?>
