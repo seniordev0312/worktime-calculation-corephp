@@ -29,7 +29,7 @@ $mail->FromName = $_GET['name'] . " ". $_GET['surname'];
 $mail->addAddress($env['RECEIVER_MAIL'], "Ugur");
 $mail->isHTML(true);
 $mail->Subject = "Time Request";
-$mail->Body = "<h4>Hi, Ugur! <br> I want to " .$_GET["date"]. " take overime time off. <br>"  .$_GET["hours"] . " hours <br> Kind Regards <br> " . $_GET['name'] . " ". $_GET['surname'] . "</h4>";
+$mail->Body = "<h4>Hi, Ugur! <br> I want to " .$_GET["date"]. " take overtime time off. "  .$_GET["hours"] . " hours <br> Kind Regards <br> " . $_GET['name'] . " ". $_GET['surname'] . "</h4>";
 try {
   // For checking if connection is
   // successful or not
@@ -61,7 +61,5 @@ try {
 } catch (Exception $e) {
   echo "Time track still not started";
 }
-
-
 
 ?>
