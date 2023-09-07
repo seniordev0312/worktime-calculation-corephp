@@ -21,7 +21,7 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
   // output data of each row
   while($row = $result->fetch_assoc()) {
-    if($row['HOURS_TOTAL'] != "0.00" || $row['HOURS_TOTAL'] != null){
+    if( $row['HOURS_TOTAL'] != null){
       echo json_encode($row);
     }
     
