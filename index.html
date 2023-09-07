@@ -92,6 +92,7 @@ let pagination_index = 0;
 let result_array = [];
 let status_array = [];
 let status_stop_array = [];
+let report_array = [];
 let selected_row = 0;
 
 function displayContent() {
@@ -573,8 +574,80 @@ function closeTimetrack(stopped_id) {
   });
 }
 
-function displayReportTable () {
+function displayReportTable (report_table_id) {
+  const resultContainer = document.getElementById('modal');
+  const htmlContent = report_array.map((item, index) => `
+      <tr>
+      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+        ${1 + index}
+      </td>
+      <td class="whitespace-nowrap px-3 py-4 text-sm font-semibold w-[20%]">
+        ${result_array[report_table_id].NAME_FIRST + " " + result_array[report_table_id].NAME_LAST }
+        
+      </td>
+      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">`+  `
+        ${item.WORK_DATE}
+      </td>
+      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+        ${item.HOURS_TOTAL}
+      </td>
+      
+    </tr>
+      `).join('');
+
+  resultContainer.innerHTML = `
+  <div class="flex flex-col w-full">
+  <div class=" bg-white w-full flex">
+    <button
+      type="button"
+      onclick="closePinModal()"
+      class="ml-auto text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+      data-modal-hide="authentication-modal"
+    >
+      <svg
+        class="w-3 h-3"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 14 14"
+      >
+        <path
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+        />
+      </svg>
+      <span class="sr-only">Close modal</span>
+    </button>
+    </div>
+  <table class="overflow-hidden shadow ring-1 mt-5 ring-black ring-opacity-5 sm:rounded-lg min-w-full divide-y divide-gray-300"><thead class="bg-gray-50">
+                <tr class="text-center">
+                  <th scope="col" class="py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
+                    No
+                  </th>
+                  <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">
+                    Staff Name
+                  </th>
+                  <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">
+                    Date
+                  </th>
+                  <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">
+                    Hours
+                  </th>
+                </tr>
+              </thead><tbody class="divide-y text-center divide-gray-200 bg-white">
+                ${htmlContent}
+                </tbody></table></div>`;
+                report_array = [];
   
+  // resultContainer.innerHTML += ``;
+  // resultContainer.innerHTML += `<tbody class="divide-y text-center divide-gray-200 bg-white">`;
+
+  
+  // resultContainer.innerHTML += htmlContent;
+  // resultContainer.innerHTML += "</table>"
 }
 
 function openTimeTrackModal(timetrack_id) {
@@ -608,8 +681,22 @@ function openReportModal(report_id) {
       id: report_id, 
     },
     success: function(response) {
-      alert(response);
-      closeReportModal();
+      let i = 0;
+      let indexStart;
+      let indexEnd;
+      while (i < response.length) {
+        if (response[i] == '{') {
+          indexStart = i;
+        }
+        if (response[i] == '}') {
+          indexEnd = i;
+          const text = JSON.parse(response.slice(indexStart, indexEnd + 1));
+          console.log(text)
+          report_array.push(text);
+        }
+        i++;
+      }
+      displayReportTable(report_id);
     },
     error: function(xhr) {
       //Do Something to handle error
