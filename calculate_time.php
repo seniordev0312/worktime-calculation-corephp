@@ -21,29 +21,17 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
   // output data of each row
   while($row = $result->fetch_assoc()) {
-    if($row['HOURS_WORK'] ) {
-      echo round(abs($row['HOURS_WORK'])) . " hours ". round(60*($row['HOURS_WORK'] - round(abs($row['HOURS_WORK'])))). " minutes timetracked";
-    } 
-    else {
-      $hrs = round(abs(strtotime($date_time) - strtotime($row['TIME_START']) + $row['HOURS_WORK'] * 3600) / 3600);
-      $minutes = round(abs(strtotime($date_time) - strtotime($row['TIME_START']) + $row['HOURS_WORK'] * 3600) / 60) - 60*$hrs;
-      if($hrs >= 9) {
-        echo $hrs . " hours timetracked";
-      } else {
-        if($hrs < 1) {
-          echo "". $minutes . " minutes timetracked";
-        } else if($minutes == 0) {
-          echo $hrs . " hours timetracked";
-        } else {
-          if($hrs > 8) {
-            echo round(abx($hrs)) . "hours timetracked";
-          } else {
-            echo $hrs . "hours ". $minutes . "minutes timetracked";
-          }
-        }
-      }
+    $hours_work;
+    if($row['HOURS_WORK'] == null) $hours_work = 0;
+    else $hours_work = $row['HOURS_WORK'];
+    $current_hours = round(abs(strtotime($date_time) - strtotime($row['TIME_START'])) / 3600) + $hours_work;
+    $current_hour = abs($current_hours);
+    $current_mintues = $current_hours - $current_hour;
+    if($current_mintues == 0) {
+      echo $current_hour . " hours timetracked!";
+    } else {
+      echo $current_hour . " hours " .$current_mintues. " minutes timetracked!";
     }
-    
   }
 } else {
   echo "0 results";
