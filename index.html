@@ -573,6 +573,10 @@ function closeTimetrack(stopped_id) {
   });
 }
 
+function displayReportTable () {
+  
+}
+
 function openTimeTrackModal(timetrack_id) {
   $.ajax({
     url: "calculate_time.php",
@@ -593,6 +597,8 @@ function openTimeTrackModal(timetrack_id) {
 function closeTimeTrackModal() {
   document.getElementById("modal").innerHTML = '';
 }
+
+
 
 function openReportModal(report_id) {
   $.ajax({
