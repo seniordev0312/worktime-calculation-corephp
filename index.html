@@ -178,6 +178,7 @@ function getInitialContent() {
     url: 'get_staff_data.php',
     success: function(response) {
       // var jsonData = JSON.parse(response);
+      console.log("initial response====>", response);
       let i = 0;
       let indexStart;
       let indexEnd;
@@ -197,53 +198,53 @@ function getInitialContent() {
         sids.push(result_array[i].SID);
       }
 
-      $.ajax({
-        url: "get_disabled_status.php",
-        type: "GET", //send it through get method
-        data: { 
-          sid: sids, 
-        },
-        success: function(response) {
-          let response_array = response.split(',');
-          response_array.pop();
-          for(let i = 0; i < response_array.length; i++) {
-            if(response_array[i] === '0') {
-              status_array.push(false);
-            } else if(response_array[i] === '1') {
-              status_array.push(true);
-            }
-          }
-          $.ajax({
-            url: "get_stop_disabled_status.php",
-            type: "GET", //send it through get method
-            data: { 
-              sid: sids, 
-            },
-            success: function(response) {
-              let response_array = response.split(',');
-              response_array.pop();
-              for(let i = 0; i < response_array.length; i++) {
-                if(response_array[i] === '0') {
-                  status_stop_array.push(false);
-                } else if(response_array[i] === '1') {
-                  status_stop_array.push(true);
-                }
-              }
-              //Do Something
-              displayContent();
+      // $.ajax({
+      //   url: "get_disabled_status.php",
+      //   type: "GET", //send it through get method
+      //   data: { 
+      //     sid: sids, 
+      //   },
+      //   success: function(response) {
+      //     let response_array = response.split(',');
+      //     response_array.pop();
+      //     for(let i = 0; i < response_array.length; i++) {
+      //       if(response_array[i] === '0') {
+      //         status_array.push(false);
+      //       } else if(response_array[i] === '1') {
+      //         status_array.push(true);
+      //       }
+      //     }
+      //     $.ajax({
+      //       url: "get_stop_disabled_status.php",
+      //       type: "GET", //send it through get method
+      //       data: { 
+      //         sid: sids, 
+      //       },
+      //       success: function(response) {
+      //         let response_array = response.split(',');
+      //         response_array.pop();
+      //         for(let i = 0; i < response_array.length; i++) {
+      //           if(response_array[i] === '0') {
+      //             status_stop_array.push(false);
+      //           } else if(response_array[i] === '1') {
+      //             status_stop_array.push(true);
+      //           }
+      //         }
+      //         //Do Something
+      //         displayContent();
 
-            },
-            error: function(xhr) {
-              //Do Something to handle error
-            }
-          });
+      //       },
+      //       error: function(xhr) {
+      //         //Do Something to handle error
+      //       }
+      //     });
 
-          //Do Something
-        },
-        error: function(xhr) {
-          //Do Something to handle error
-        }
-      });
+      //     //Do Something
+      //   },
+      //   error: function(xhr) {
+      //     //Do Something to handle error
+      //   }
+      // });
 
 
 
