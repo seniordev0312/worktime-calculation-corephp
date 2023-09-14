@@ -32,7 +32,7 @@ if($_POST['id']) {
     $sql = "INSERT INTO cm_ho_working_plans (STAFF_ID) VALUES ('{$_POST["id"]}')";
     $result = $conn->query($sql);
     if (!$result) {
-      echo $result;
+      echo $conn->error;
         die('Error: ' . $conn->error);
     }
     echo "0";
