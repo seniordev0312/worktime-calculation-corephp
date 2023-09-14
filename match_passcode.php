@@ -16,8 +16,8 @@ if($_POST['passcode']) {
   }
 
   $sql = "SELECT * FROM cm_ho_staff WHERE SID='{$_POST['id']}'";
-  $result = $conn->query($sql);
-  echo $result;
+  // $result = $conn->query($sql);
+  echo $sql;
 
   // if ($result->num_rows > 0) {
   //   // output data of each row
