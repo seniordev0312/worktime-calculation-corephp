@@ -31,7 +31,6 @@ if($_POST['id']) {
   } else {
     $sql = "INSERT INTO cm_ho_working_plans (STAFF_ID, WORK_DATE, TIME_START) VALUES ('{$_POST["id"]}', '{$date_day}', '{$date_time}')";
     $result = $conn->query($sql);
-    $result = $conn->query($updateQuery);
     if (!$result) {
       echo $result;
         die('Error: ' . $conn->error);
