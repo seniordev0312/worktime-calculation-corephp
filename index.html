@@ -352,6 +352,7 @@ function submitPasscode(id) {
           url: 'start_timetrack.php',
           data: create_data,
           success: function(response) {
+            console.log("rsponsedddd", response);
             alert("time track successfuly started");
             location.reload();
           },

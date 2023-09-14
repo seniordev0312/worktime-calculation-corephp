@@ -17,19 +17,20 @@ if($_POST['passcode']) {
 
   $sql = "SELECT * FROM cm_ho_staff WHERE SID='{$_POST['id']}'";
   $result = $conn->query($sql);
+  echo $result;
 
-  if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-      if(strval($row['PERSONAL_PIN']) == strval($_POST['passcode'])) {
-        echo "1";
-      } else {
-        echo "0";
-      }
-    }
-  } else {
-    echo "0 results";
-  }
+  // if ($result->num_rows > 0) {
+  //   // output data of each row
+  //   while($row = $result->fetch_assoc()) {
+  //     if(strval($row['PERSONAL_PIN']) == strval($_POST['passcode'])) {
+  //       echo "1";
+  //     } else {
+  //       echo "0";
+  //     }
+  //   }
+  // } else {
+  //   echo "0 results";
+  // }
   $conn->close();
 }
 
