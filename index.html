@@ -343,7 +343,7 @@ function submitPasscode(id) {
     success: function(response) {
 
       const create_data = {
-        id
+        id: Number(id)
       }
       console.log("response====?", response);
       if(response == "1") {
