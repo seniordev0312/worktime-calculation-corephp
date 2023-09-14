@@ -30,11 +30,11 @@ if($_POST['id']) {
 
   } else {
     $sql = "INSERT INTO cm_ho_working_plans (STAFF_ID) VALUES ('{$_POST["id"]}')";
-    // $result = $conn->query($sql);
-    // if (!$result) {
-    //   echo $result;
-    //     die('Error: ' . $conn->error);
-    // }
+    $result = $conn->query($sql);
+    if (!$result) {
+      echo $result;
+        die('Error: ' . $conn->error);
+    }
     echo "0";
   } 
 
