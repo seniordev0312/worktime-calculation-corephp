@@ -15,7 +15,17 @@
     <div class="mt-8 flow-root">
       <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+          <div class="w-full flex justify-center">
+            <button
+            type="button"
+            onclick="refresh()"
+            class="rounded-md disabled:opacity-25 mb-5 ml-auto mr-auto bg-slate-50 px-10 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-200"
+          >
+            Refresh
+          </button>
+          </div>
           <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+            
             <table class="min-w-full divide-y divide-gray-300">
               <thead class="bg-gray-50">
                 <tr class="text-center">
@@ -731,6 +741,10 @@ function openReportModal(staff_id, report_id) {
 
 function closeReportModal() {
   document.getElementById("modal").innerHTML = '';
+}
+
+function reload() {
+  location.reload();
 }
 
 </script>
