@@ -420,6 +420,14 @@ function stopPinModal(stop_id) {
           <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
             Are you sure you want to pause the time track?
           </h3>
+          <input
+            type="password"
+            name="password"
+            id="stop_password"
+            placeholder="••••"
+            class="bg-gray-50 mb-3 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+            required
+          />
           <button
             data-modal-hide="popup-modal"
             type="button"
@@ -571,18 +579,38 @@ function closeRequestModal() {
 }
 
 function closeTimetrack(stopped_id) {
+  const passcode = document.getElementById("stop_password").value;
+  console.log("close timetract", passcode)
   const data = {
-    id: stopped_id
-  };
+    passcode, id:stopped_id
+  }
+ 
   $.ajax({
     type: "POST",
-    url: 'close_timetrack.php',
+    url: 'match_passcode.php',
     data: data,
     success: function(response) {
-      alert("successfully stopped");
-      location.reload();
+      console.log("response, ", response)
+      if(response == "1"){
+
+        const data = {
+          id: stopped_id
+        };
+        $.ajax({
+          type: "POST",
+          url: 'close_timetrack.php',
+          data: data,
+          success: function(response) {
+            alert("successfully stopped");
+            location.reload();
+          }
+        });
+      } else {
+        alert("Passcode does not match")
+      }
     }
-  });
+  })
+ 
 }
 
 function displayReportTable (report_table_id) {
