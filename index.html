@@ -663,10 +663,10 @@ function displayReportTable (report_table_id) {
         ${item.WORK_DATE}
       </td>
       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-        ${ total_hours}
+        ${ Math.floor(total_hours)} hours ${(total_hours - Math.floor(total_hours)) * 60} minutes
       </td>
       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-        ${ item.HOURS_TOTAL ? item.HOURS_TOTAL : 0}
+        ${ item.HOURS_TOTAL ? item.HOURS_TOTAL : 0} Hours
       </td>
       
     </tr>
@@ -692,10 +692,11 @@ function displayReportTable (report_table_id) {
       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">`+  `
       </td>
       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">`+  `
-        ${sum_hours}
+        ${ Math.floor(sum_hours)} hours ${(sum_hours - Math.floor(sum_hours)) * 60} minutes
         </td>
       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-        ${total_request_hours}
+        ${ Math.floor(total_request_hours)} hours ${(total_request_hours - Math.floor(total_request_hours)) * 60} minutes
+
       </td>
   `;
 
