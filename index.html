@@ -615,7 +615,32 @@ function closeTimetrack(stopped_id) {
 
 function displayReportTable (report_table_id) {
   const resultContainer = document.getElementById('modal');
-  const htmlContent = report_array.map((item, index) => `
+  let sum_hours = 0;
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  const hours = String(today.getHours()).padStart(2, '0');
+  const minutes = String(today.getMinutes()).padStart(2, '0');
+  const seconds = String(today.getSeconds()).padStart(2, '0');
+  const formattedTime = `${hours}:${minutes}:${seconds}`;
+  const formattedDate = `${year}-${month}-${day}`;
+  const htmlContent = report_array.map((item, index) => {
+    let total_hours;
+    
+    if(item.HOURS_TOTAL) {
+      total_hours = Number(item.HOURS_TOTAL) + 8;
+    } else {
+      total_hours = 8;
+    }
+    if(formattedDate == item.WORK_DATE) {
+      const startDateTime = new Date(String('2023-09-20T'+ item.TIME_START));
+      const endDateTime = new Date(String('2023-09-20T' + formattedTime))
+      console.log('startDateTime.getTime()', startDateTime, endDateTime)
+      total_hours = Number((Number(item.HOURS_WORK) + ( endDateTime.getTime() - startDateTime.getTime()) / (1000 * 60 * 60) - 11).toFixed(1));
+    }
+    sum_hours += total_hours;
+    return `
       <tr>
       <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
         ${1 + index}
@@ -628,21 +653,22 @@ function displayReportTable (report_table_id) {
         ${item.WORK_DATE}
       </td>
       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-        ${ item.TIME_END == null? item.HOURS_TOTAL * (-1): item.HOURS_TOTAL}
+        ${ total_hours}
       </td>
       
     </tr>
-      `).join('');
-  let i = 0;
-  let total_report_hours = 0;
-  while(i < report_array.length) {
-    if(report_array[i].TIME_END == null) {
-      total_report_hours += Number(report_array[i].HOURS_TOTAL) * -1;
-    } else {
-      total_report_hours += Number(report_array[i].HOURS_TOTAL);
-    }
-    i++;
-  }
+      `
+  }).join('');
+  // let i = 0;
+  // let total_report_hours = 0;
+  // while(i < report_array.length) {
+  //   if(report_array[i].TIME_END == null) {
+  //     total_report_hours += Number(report_array[i].HOURS_TOTAL) * -1;
+  //   } else {
+  //     total_report_hours += Number(report_array[i].HOURS_TOTAL);
+  //   }
+  //   i++;
+  // }
   const sumHTML =  `
   <tr>
       <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
@@ -653,7 +679,7 @@ function displayReportTable (report_table_id) {
       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">`+  `
       </td>
       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-        ${total_report_hours}
+        ${sum_hours}
       </td>
   `;
 
