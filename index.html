@@ -625,19 +625,29 @@ function displayReportTable (report_table_id) {
   const seconds = String(today.getSeconds()).padStart(2, '0');
   const formattedTime = `${hours}:${minutes}:${seconds}`;
   const formattedDate = `${year}-${month}-${day}`;
+  let total_hours = 0;
+    let total_request_hours = 0;
   const htmlContent = report_array.map((item, index) => {
-    let total_hours;
+    
     
     if(item.HOURS_TOTAL) {
       total_hours = Number(item.HOURS_TOTAL) + 8;
+      total_request_hours += Number(item.HOURS_TOTAL);
     } else {
       total_hours = 8;
     }
     if(formattedDate == item.WORK_DATE) {
-      const startDateTime = new Date(String('2023-09-20T'+ item.TIME_START));
-      const endDateTime = new Date(String('2023-09-20T' + formattedTime))
-      console.log('startDateTime.getTime()', startDateTime, endDateTime)
-      total_hours = Number((Number(item.HOURS_WORK) + ( endDateTime.getTime() - startDateTime.getTime()) / (1000 * 60 * 60) - 1).toFixed(1));
+      const startDateTime =  item.TIME_START;
+      const startTimeArray = startDateTime.split(':');
+      const calculatedStartTime = Number(startTimeArray[0]) + Number(startTimeArray[1]) / 60 + Number(startTimeArray[2]) / 3600; 
+      const endDateTime = new Date();
+      const options = { timeZone: 'Europe/London' };
+      const formattedEndTime = endDateTime.toLocaleString('en-GB', options);
+      const endTimeArray = (formattedEndTime.split(',')[1]).split(':');
+      const calculatedEndTime = Number(endTimeArray[0]) + Number(endTimeArray[1]) / 60 + Number(endTimeArray[2]) / 3600; 
+      const difference = Number((calculatedEndTime - calculatedStartTime).toFixed(1))
+      console.log('startDateTime.getTime()', difference,)
+      total_hours = Number((Number(item.HOURS_WORK) + difference));
     }
     sum_hours += total_hours;
     return `
@@ -654,6 +664,9 @@ function displayReportTable (report_table_id) {
       </td>
       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
         ${ total_hours}
+      </td>
+      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+        ${ item.HOURS_TOTAL ? item.HOURS_TOTAL : 0}
       </td>
       
     </tr>
@@ -678,8 +691,11 @@ function displayReportTable (report_table_id) {
       </td>
       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">`+  `
       </td>
-      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">`+  `
         ${sum_hours}
+        </td>
+      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+        ${total_request_hours}
       </td>
   `;
 
@@ -722,7 +738,10 @@ function displayReportTable (report_table_id) {
                     Date
                   </th>
                   <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">
-                    Hours
+                    Worked Hours
+                  </th>
+                  <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">
+                    Requested Hours
                   </th>
                 </tr>
               </thead><tbody class="divide-y text-center divide-gray-200 bg-white">

@@ -5,6 +5,7 @@ include('db.php');
 if($_POST['id']) {
   // Connection
   $conn = new mysqli($servername,$username, $password, $databasename);
+  date_default_timezone_set('Europe/London');
 
     // For checking if connection is
   // successful or not
@@ -13,7 +14,7 @@ if($_POST['id']) {
     die("Connection failed: "
         . $conn->connect_error);
   }
-  $date_time = date("h:i:s");
+  $date_time = date("H:i:s");
   $date_day = date("Y-m-d");
   $sql_check = "SELECT * FROM cm_ho_working_plans WHERE STAFF_ID = '{$_POST["id"]}' AND WORK_DATE = '{$date_day}'";
   $result_check = $conn->query($sql_check);
