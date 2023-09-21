@@ -655,6 +655,10 @@ function displayReportTable (report_table_id) {
       const difference = Number((calculatedEndTime - calculatedStartTime).toFixed(1))
       console.log('startDateTime.getTime()', difference,)
       total_hours = Number((Number(item.HOURS_WORK) + difference));
+      if(!item.HOURS_WORK && total_hours > 9)  {
+        total_hours = 8;
+      }
+
     }
     sum_hours += total_hours;
     return `
