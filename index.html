@@ -629,7 +629,7 @@ function displayReportTable (report_table_id) {
   let total_hours = 0;
     let total_request_hours = 0;
   const htmlContent = report_array.map((item, index) => {
-    let total_worked_hours;
+    let total_worked_hours = 0;
     
     if(item.HOURS_TOTAL) {
       total_hours = Number(item.HOURS_TOTAL) + 8;
