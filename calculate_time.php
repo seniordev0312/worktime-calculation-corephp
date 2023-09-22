@@ -26,6 +26,9 @@ if ($result->num_rows > 0) {
     if($row['HOURS_WORK'] == null) $hours_work = 0;
     else $hours_work = $row['HOURS_WORK'];
     $current_hours = round(abs(strtotime($date_time) - strtotime($row['TIME_START'])) / 3600) + $hours_work;
+    if($current_hours > 9 + $hours_work) {
+      $current_hours = 8 + $hours_work;
+    }
     $current_hour = abs($current_hours);
     $current_mintues = $current_hours - $current_hour;
     if($current_mintues == 0) {

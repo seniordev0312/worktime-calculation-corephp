@@ -630,13 +630,16 @@ function displayReportTable (report_table_id) {
     let total_request_hours = 0;
   const htmlContent = report_array.map((item, index) => {
     let total_worked_hours = 0;
+    let overtime_hours = 0;
     
     if(item.HOURS_TOTAL) {
       total_hours = Number(item.HOURS_TOTAL) + 8;
       if(Number(item.HOURS_WORK) > 8) {
-        total_worked_hours =  Number(item.HOURS_TOTAL)
+        total_worked_hours =  Number(item.HOURS_TOTAL);
+        overtime_hours = total_worked_hours;
       } else {
-        total_worked_hours = (-1) * Number(item.HOURS_TOTAL)
+        total_worked_hours = (-1) * Number(item.HOURS_TOTAL);
+        overtime_hours = total_worked_hours;
       }
       total_request_hours += total_worked_hours;
 
@@ -652,12 +655,14 @@ function displayReportTable (report_table_id) {
       const formattedEndTime = endDateTime.toLocaleString('en-GB', options);
       const endTimeArray = (formattedEndTime.split(',')[1]).split(':');
       const calculatedEndTime = Number(endTimeArray[0]) + Number(endTimeArray[1]) / 60 + Number(endTimeArray[2]) / 3600; 
-      const difference = Number((calculatedEndTime - calculatedStartTime).toFixed(1))
+      const difference = Number((calculatedEndTime - calculatedStartTime).toFixed(2))
       console.log('startDateTime.getTime()', difference,)
       total_hours = Number((Number(item.HOURS_WORK) + difference));
       if( total_hours > total_worked_hours + 9)  {
-        total_hours = 8 + total_worked_hours;
-      }
+        if(overtime_hours > 0.25) {
+          overtime_hours = total_hours - total_worked_hours - 9;
+        }
+      } 
 
     }
     sum_hours += total_hours;
@@ -677,7 +682,7 @@ function displayReportTable (report_table_id) {
         ${ Math.floor(total_hours)} hours ${Math.floor((total_hours - Math.floor(total_hours)) * 60)} minutes
       </td>
       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-        ${ Math.floor(total_worked_hours)} hours ${Math.floor((total_worked_hours - Math.floor(total_worked_hours)) * 60)} minutes
+        ${ Math.floor(overtime_hours)} hours ${Math.floor((overtime_hours - Math.floor(overtime_hours)) * 60)} minutes
       </td>
       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
         ${ Math.floor(total_worked_hours + total_hours)} hours ${Math.floor((total_worked_hours + total_hours - Math.floor(total_worked_hours + total_hours)) * 60)} minutes
