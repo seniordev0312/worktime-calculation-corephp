@@ -659,8 +659,12 @@ function displayReportTable (report_table_id) {
       console.log('startDateTime.getTime()', difference,)
       total_hours = Number((Number(item.HOURS_WORK) + difference));
       if( total_hours > total_worked_hours + 9)  {
-        if(overtime_hours > 0.25) {
-          overtime_hours = total_hours - total_worked_hours - 9;
+        overtime_hours = total_hours - total_worked_hours - 9;
+        if(overtime_hours <= 0.25) {
+          overtime_hours = 0;
+        }
+        if(overtime_hours > 0) {
+          total_hours = 8;
         }
       } 
 
