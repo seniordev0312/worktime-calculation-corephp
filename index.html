@@ -624,11 +624,12 @@ function displayReportTable (report_table_id) {
   const seconds = String(today.getSeconds()).padStart(2, '0');
   const formattedTime = `${hours}:${minutes}:${seconds}`;
   const formattedDate = `${year}-${month}-${day}`;
-  let total_hours = 0;
-  const htmlContent = report_array.map((item, index) => {
   let total_worked_hours = 0;
   let total_overtime_hours = 0;
   let total_timetracked_hours = 0;
+  const htmlContent = report_array.map((item, index) => {
+    let total_hours = 0;
+  
   let overtime_hours = 0;
   const TimeStartArray = item.TIME_START.split(':');
   const TimeEndArray = ('24:00:00').split(':');
