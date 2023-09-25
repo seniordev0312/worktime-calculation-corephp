@@ -615,8 +615,6 @@ function closeTimetrack(stopped_id) {
 
 function displayReportTable (report_table_id) {
   const resultContainer = document.getElementById('modal');
-  let sum_hours = 0;
-  let total_worked_hours = 0;
   const today = new Date();
   const year = today.getFullYear();
   const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -699,7 +697,7 @@ function displayReportTable (report_table_id) {
         ${ Math.floor(overtime_hours)} hours ${Math.floor((overtime_hours - Math.floor(overtime_hours)) * 60)} minutes
       </td>
       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-        ${ Math.floor(total_timetracked_hours)} hours ${Math.floor((total_timetracked_hours - Math.floor(total_worked_hours + total_hours)) * 60)} minutes
+        ${ Math.floor(timetracked_hours)} hours ${Math.floor((timetracked_hours - Math.floor(timetracked_hours)) * 60)} minutes
       </td>
       
     </tr>
@@ -732,7 +730,7 @@ function displayReportTable (report_table_id) {
 
       </td>
       <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-        ${ Math.floor(timetracked_hours)} hours ${Math.floor((timetracked_hours - Math.floor(timetracked_hours)) * 60)} minutes
+        ${ Math.floor(total_timetracked_hours)} hours ${Math.floor((total_timetracked_hours - Math.floor(total_timetracked_hours)) * 60)} minutes
 
       </td>
   `;
