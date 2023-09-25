@@ -667,6 +667,9 @@ function displayReportTable (report_table_id) {
           total_hours = 8;
         }
       } 
+      if(item.TIME_END !== null) {
+        overtime_hours = item.HOURS_WORK;
+      }
 
     }
     sum_hours += total_hours;
