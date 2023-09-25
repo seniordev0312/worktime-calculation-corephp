@@ -639,14 +639,22 @@ function displayReportTable (report_table_id) {
     total_hours = Number(item.HOURS_TOTAL) + differenceTime;
     
     if(total_hours > Number(item.HOURS_WORK) + 9.25) {
-      timetracked_hours = Number(item.HOURS_WORK) + 9.25;
-      overtime_hours = total_hours - timetracked_hours;
-    } else {
       timetracked_hours = total_hours;
       overtime_hours = 0;
+    } else {
+      timetracked_hours = Number(item.HOURS_WORK) + 9.25;
+      overtime_hours = total_hours - timetracked_hours;
     }
   } else {
     total_hours = differenceTime;
+    
+    if(total_hours > Number(item.HOURS_WORK) + 9.25) {
+      timetracked_hours = total_hours;
+      overtime_hours = 0;
+    } else {
+      timetracked_hours += 9.25;
+      overtime_hours = total_hours - timetracked_hours;
+    }
   }
     // if(formattedDate == item.WORK_DATE) {
     //   const startDateTime =  item.TIME_START;
