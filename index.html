@@ -633,7 +633,7 @@ function displayReportTable (report_table_id) {
     let overtime_hours = 0;
     const TimeStartArray = item.TIME_START.split(':');
     const TimeEndArray = ('24:00:00').split(':');
-    const differenceTime = (-1) * (Number(TimeStartArray[0]) + Number(TimeStartArray[1]) / 60 + Number(TimeStartArray[2]) / 3600) - (Number(TimeEndArray[0]) + Number(TimeEndArray[1]) / 60 + Number(TimeEndArray[2]) / 3600)
+    const differenceTime = (-1) *( (Number(TimeStartArray[0]) + Number(TimeStartArray[1]) / 60 + Number(TimeStartArray[2]) / 3600) - (Number(TimeEndArray[0]) + Number(TimeEndArray[1]) / 60 + Number(TimeEndArray[2]) / 3600))
     
     if(item.HOURS_TOTAL) {
       total_hours = Number(item.HOURS_TOTAL) + differenceTime;
