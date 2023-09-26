@@ -630,15 +630,14 @@ function displayReportTable (report_table_id) {
   let total_requested_hours = 0;
   const htmlContent = report_array.map((item, index) => {
     let total_hours = 0;
-    let requested_hours;
-  
+    let requested_hours = 0;
+    let timetracked_hours = 0;
   let overtime_hours = 0;
   console.log("time start------",  item.TIME_START);
   if(item.TIME_START !== null) {
     const TimeStartArray = (item.TIME_START).split(':');
     const TimeEndArray = ('24:00:00').split(':');
     const differenceTime = (-1) *( (Number(TimeStartArray[0]) + Number(TimeStartArray[1]) / 60 + Number(TimeStartArray[2]) / 3600) - (Number(TimeEndArray[0]) + Number(TimeEndArray[1]) / 60 + Number(TimeEndArray[2]) / 3600))
-    let timetracked_hours;
     if(item.HOURS_TOTAL) {
       total_hours = Number(item.HOURS_TOTAL) + differenceTime;
       requested_hours = Number(item.HOURS_TOTAL);
