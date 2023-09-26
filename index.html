@@ -633,6 +633,7 @@ function displayReportTable (report_table_id) {
     let requested_hours;
   
   let overtime_hours = 0;
+  console.log("time start------",  item.TIME_START);
   const TimeStartArray = item.TIME_START.split(':');
   const TimeEndArray = ('24:00:00').split(':');
   const differenceTime = (-1) *( (Number(TimeStartArray[0]) + Number(TimeStartArray[1]) / 60 + Number(TimeStartArray[2]) / 3600) - (Number(TimeEndArray[0]) + Number(TimeEndArray[1]) / 60 + Number(TimeEndArray[2]) / 3600))
@@ -660,6 +661,8 @@ function displayReportTable (report_table_id) {
       overtime_hours = total_hours - timetracked_hours;
     }
   }
+
+  
 
     // if(formattedDate == item.WORK_DATE) {
     //   const startDateTime =  item.TIME_START;
