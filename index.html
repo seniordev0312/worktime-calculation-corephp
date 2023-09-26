@@ -640,7 +640,7 @@ function displayReportTable (report_table_id) {
   if(item.HOURS_TOTAL) {
     total_hours = Number(item.HOURS_TOTAL) + differenceTime;
     requested_hours = Number(item.HOURS_TOTAL);
-    if(total_hours > Number(item.HOURS_WORK) + 9.25) {
+    if(total_hours < Number(item.HOURS_WORK) + 9.25) {
       timetracked_hours = total_hours;
       overtime_hours = 0;
     } else {
