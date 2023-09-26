@@ -645,7 +645,7 @@ function displayReportTable (report_table_id) {
       overtime_hours = 0;
     } else {
       timetracked_hours = Number(item.HOURS_TOTAL) + 9.25;
-      overtime_hours = total_hours - timetracked_hours;
+      overtime_hours = total_hours - timetracked_hours + 0.25;
     }
   } else {
 
