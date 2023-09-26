@@ -675,17 +675,12 @@ function displayReportTable (report_table_id) {
       const difference = Number((calculatedEndTime - calculatedStartTime).toFixed(2))
       console.log('startDateTime.getTime()', difference,)
       total_hours = Number((Number(item.HOURS_WORK) + difference));
-      if( total_hours > total_worked_hours + 9)  {
-        overtime_hours = total_hours - total_worked_hours - 9;
-        if(overtime_hours <= 0.25) {
-          overtime_hours = 0;
-        }
-        if(overtime_hours > 0) {
-          total_hours = 8;
-        }
-      } 
-      if(item.TIME_END !== null) {
-        overtime_hours = item.HOURS_WORK;
+      if(total_hours < Number(item.HOURS_TOTAL) + 9.25) {
+        timetracked_hours = total_hours;
+        overtime_hours = 0;
+      } else {
+        timetracked_hours = Number(item.HOURS_TOTAL) + 9;
+        overtime_hours = total_hours - timetracked_hours;
       }
     }
     if(item.TIME_END !== null && calculateTime(item.TIME_END) - calculateTime(item.TIME_START) > 0) {
