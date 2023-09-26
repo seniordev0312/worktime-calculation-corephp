@@ -634,35 +634,39 @@ function displayReportTable (report_table_id) {
   
   let overtime_hours = 0;
   console.log("time start------",  item.TIME_START);
-  const TimeStartArray = (item.TIME_START).split(':');
-  const TimeEndArray = ('24:00:00').split(':');
-  const differenceTime = (-1) *( (Number(TimeStartArray[0]) + Number(TimeStartArray[1]) / 60 + Number(TimeStartArray[2]) / 3600) - (Number(TimeEndArray[0]) + Number(TimeEndArray[1]) / 60 + Number(TimeEndArray[2]) / 3600))
-  let timetracked_hours;
-  if(item.HOURS_TOTAL) {
-    total_hours = Number(item.HOURS_TOTAL) + differenceTime;
-    requested_hours = Number(item.HOURS_TOTAL);
-    if(total_hours < Number(item.HOURS_TOTAL) + 9.25) {
-      timetracked_hours = total_hours;
-      overtime_hours = 0;
+  if(item.TIME_START !== null) {
+    const TimeStartArray = (item.TIME_START).split(':');
+    const TimeEndArray = ('24:00:00').split(':');
+    const differenceTime = (-1) *( (Number(TimeStartArray[0]) + Number(TimeStartArray[1]) / 60 + Number(TimeStartArray[2]) / 3600) - (Number(TimeEndArray[0]) + Number(TimeEndArray[1]) / 60 + Number(TimeEndArray[2]) / 3600))
+    let timetracked_hours;
+    if(item.HOURS_TOTAL) {
+      total_hours = Number(item.HOURS_TOTAL) + differenceTime;
+      requested_hours = Number(item.HOURS_TOTAL);
+      if(total_hours < Number(item.HOURS_TOTAL) + 9.25) {
+        timetracked_hours = total_hours;
+        overtime_hours = 0;
+      } else {
+        timetracked_hours = Number(item.HOURS_TOTAL) + 9;
+        overtime_hours = total_hours - timetracked_hours;
+      }
     } else {
-      timetracked_hours = Number(item.HOURS_TOTAL) + 9;
-      overtime_hours = total_hours - timetracked_hours;
-    }
-  } else {
 
-    requested_hours = 0;
-    total_hours = differenceTime;
-    
-    if(total_hours > 9.25) {
-      timetracked_hours = 9;
-      overtime_hours = total_hours - 9;
-    } else {
-      timetracked_hours += 9.25;
-      overtime_hours = total_hours - timetracked_hours;
+      requested_hours = 0;
+      total_hours = differenceTime;
+      
+      if(total_hours > 9.25) {
+        timetracked_hours = 9;
+        overtime_hours = total_hours - 9;
+      } else {
+        timetracked_hours += 9.25;
+        overtime_hours = total_hours - timetracked_hours;
+      }
     }
   }
+  
 
   
+
 
     // if(formattedDate == item.WORK_DATE) {
     //   const startDateTime =  item.TIME_START;
