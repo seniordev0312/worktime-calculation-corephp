@@ -629,9 +629,9 @@ function displayReportTable (report_table_id) {
   let total_timetracked_hours = 0;
   let total_requested_hours = 0;
   const htmlContent = report_array.map((item, index) => {
-    let total_hours = 0;
-    let requested_hours = 0;
-    let timetracked_hours = 0;
+  let total_hours = 0;
+  let requested_hours = 0;
+  let timetracked_hours = 0;
   let overtime_hours = 0;
   console.log("time start------",  item.TIME_START);
   if(item.TIME_START !== null) {
@@ -661,38 +661,39 @@ function displayReportTable (report_table_id) {
         overtime_hours = total_hours - timetracked_hours;
       }
     }
+    if(formattedDate == item.WORK_DATE) {
+      const startDateTime =  item.TIME_START;
+      const startTimeArray = startDateTime.split(':');
+      const calculatedStartTime = Number(startTimeArray[0]) + Number(startTimeArray[1]) / 60 + Number(startTimeArray[2]) / 3600; 
+      const endDateTime = new Date();
+      const options = { timeZone: 'Europe/London' };
+      const formattedEndTime = endDateTime.toLocaleString('en-GB', options);
+      const endTimeArray = (formattedEndTime.split(',')[1]).split(':');
+      const calculatedEndTime = Number(endTimeArray[0]) + Number(endTimeArray[1]) / 60 + Number(endTimeArray[2]) / 3600; 
+      const difference = Number((calculatedEndTime - calculatedStartTime).toFixed(2))
+      console.log('startDateTime.getTime()', difference,)
+      total_hours = Number((Number(item.HOURS_WORK) + difference));
+      if( total_hours > total_worked_hours + 9)  {
+        overtime_hours = total_hours - total_worked_hours - 9;
+        if(overtime_hours <= 0.25) {
+          overtime_hours = 0;
+        }
+        if(overtime_hours > 0) {
+          total_hours = 8;
+        }
+      } 
+      if(item.TIME_END !== null) {
+        overtime_hours = item.HOURS_WORK;
+      }
+
+    }
   }
   
 
   
 
 
-    // if(formattedDate == item.WORK_DATE) {
-    //   const startDateTime =  item.TIME_START;
-    //   const startTimeArray = startDateTime.split(':');
-    //   const calculatedStartTime = Number(startTimeArray[0]) + Number(startTimeArray[1]) / 60 + Number(startTimeArray[2]) / 3600; 
-    //   const endDateTime = new Date();
-    //   const options = { timeZone: 'Europe/London' };
-    //   const formattedEndTime = endDateTime.toLocaleString('en-GB', options);
-    //   const endTimeArray = (formattedEndTime.split(',')[1]).split(':');
-    //   const calculatedEndTime = Number(endTimeArray[0]) + Number(endTimeArray[1]) / 60 + Number(endTimeArray[2]) / 3600; 
-    //   const difference = Number((calculatedEndTime - calculatedStartTime).toFixed(2))
-    //   console.log('startDateTime.getTime()', difference,)
-    //   total_hours = Number((Number(item.HOURS_WORK) + difference));
-    //   if( total_hours > total_worked_hours + 9)  {
-    //     overtime_hours = total_hours - total_worked_hours - 9;
-    //     if(overtime_hours <= 0.25) {
-    //       overtime_hours = 0;
-    //     }
-    //     if(overtime_hours > 0) {
-    //       total_hours = 8;
-    //     }
-    //   } 
-    //   if(item.TIME_END !== null) {
-    //     overtime_hours = item.HOURS_WORK;
-    //   }
-
-    // }
+    
     total_worked_hours += total_hours;
     total_overtime_hours += overtime_hours;
     total_timetracked_hours += timetracked_hours;
