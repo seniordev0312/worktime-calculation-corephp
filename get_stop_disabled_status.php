@@ -22,10 +22,6 @@ for($i = 0; $i < count($_GET['sid']); $i ++) {
   if($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
       if($row['WORK_DATE'] == date("Y-m-d")) {
-        if($row['TIME_END'] == '00:00:00') {
-          $status = "1";
-          break;
-        }
         if($row['TIME_END'] == null) {
           $status = "1";
           break;
