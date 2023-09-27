@@ -23,9 +23,9 @@ for($i = 0; $i < count($_GET['sid']); $i ++) {
     while($row = $result->fetch_assoc()) {
       if($row['WORK_DATE'] == date("Y-m-d")) {
         if(abs(strtotime($row['TIME_END']) - strtotime($row['TIME_START'])) < 0) {
-          $status = "0";
-        } else {
           $status = "1";
+        } else {
+          $status = "0";
         }
       } 
     }
