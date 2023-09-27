@@ -26,7 +26,7 @@ for($i = 0; $i < count($_GET['sid']); $i ++) {
           $status = "1";
           break;
         }
-        if(!$row['TIME_END']) {
+        if($row['TIME_END'] == null) {
           $status = "1";
           break;
         }
