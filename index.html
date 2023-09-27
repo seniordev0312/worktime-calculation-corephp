@@ -699,8 +699,8 @@ function displayReportTable (report_table_id) {
   } else {
     requested_hours = Number(item.HOURS_TOTAL);
   }
-  if(overtime_hours - timetracked_hours > 0) {
-    will_report_hours = overtime_hours - timetracked_hours;
+  if(overtime_hours - requested_hours > 0) {
+    will_report_hours = overtime_hours - requested_hours;
   }
   
     total_worked_hours += total_hours;
