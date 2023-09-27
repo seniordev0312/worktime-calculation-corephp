@@ -37,11 +37,11 @@ if ($result->num_rows > 0) {
     }
     $current_hour = abs($current_hours);
     $current_mintues = $current_hours - $current_hour;
-    if($current_mintues == 0) {
-      echo $current_hour . " hours timetracked!";
-    } else {
+    // if($current_mintues == 0) {
+    //   echo $current_hour . " hours timetracked!";
+    // } else {
       echo $current_hour . " hours " .$current_mintues. " minutes timetracked!";
-    }
+    // }
   }
 } else {
   echo "0 results";
