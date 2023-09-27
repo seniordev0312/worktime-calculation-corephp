@@ -28,7 +28,7 @@ if ($result->num_rows > 0) {
     else $request_hour = $row['HOURS_TOTAL'];
     if($row['HOURS_WORK'] == null) $hours_work = 0;
     else $hours_work = $row['HOURS_WORK'];
-    $current_hours = round(abs(strtotime($date_time) - strtotime($row['TIME_START'])) / 3600) + $hours_work;
+    $current_hours = (abs(strtotime($date_time) - strtotime($row['TIME_START'])) / 3600) + $hours_work;
     if($current_hours > 9 + $request_hour) {
       $current_hours = 8 + $request_hour;
     }
@@ -38,7 +38,7 @@ if ($result->num_rows > 0) {
     $current_hour = floor($current_hours);
     $current_mintues = floor(($current_hours - $current_hour) * 60);
     if($current_mintues == 0) {
-      echo $current_hours . " hours timetracked!";
+      echo $current_hour . " hours timetracked!";
     } else if($current_hour == 0) {
       echo $current_mintues. " minutes timetracked!";
 
