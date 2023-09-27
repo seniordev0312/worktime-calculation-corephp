@@ -40,7 +40,7 @@ if ($result->num_rows > 0) {
     // if($current_mintues == 0) {
     //   echo $current_hour . " hours timetracked!";
     // } else {
-      echo strtotime($row['TIME_END']) . " hours " .$current_mintues. " minutes timetracked!";
+      echo $row['TIME_END'] . " hours " .$current_mintues. " minutes timetracked!";
     // }
   }
 } else {
