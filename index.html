@@ -120,7 +120,7 @@ function displayContent() {
         <button
           type="button"
           onclick="openPinModal(${item.SID})"
-          ${status_stop_array[pagination_index * 5 + index] ? 'disabled' : ''}
+          ${!status_array[pagination_index * 5 + index] ? 'disabled' : ''}
           class="rounded-md disabled:opacity-25 bg-slate-50 px-10 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-200"
         >
           Start
@@ -130,7 +130,7 @@ function displayContent() {
         <button
           type="button"
           onclick="stopPinModal(${item.SID})"
-          ${!status_stop_array[pagination_index * 5 + index] ? 'disabled' : ''}
+          ${status_array[pagination_index * 5 + index] ? 'disabled' : ''}
           class="rounded-md disabled:opacity-25 bg-red-200 px-10 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-red-300"
         >
           Stop
