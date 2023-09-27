@@ -33,7 +33,7 @@ if ($result->num_rows > 0) {
       $current_hours = 8 + $request_hour;
     }
     if(strtotime($row['TIME_END']) - strtotime($row['TIME_START']) > 0) {
-      current_hours = $row['HOURS_WORK']
+      $current_hours = $hours_work;
     }
     $current_hour = abs($current_hours);
     $current_mintues = $current_hours - $current_hour;
