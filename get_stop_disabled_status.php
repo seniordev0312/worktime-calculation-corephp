@@ -22,7 +22,7 @@ for($i = 0; $i < count($_GET['sid']); $i ++) {
   if($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
       if($row['WORK_DATE'] == date("Y-m-d")) {
-        if($row['TIME_END'] !== null & $row['TIME_END'] !== '00:00:00') {
+        if(abs(strtotime($row['TIME_END']) - strtotime($row['TIME_START'])) > 0) {
           $status = "1";
           break;
         }
