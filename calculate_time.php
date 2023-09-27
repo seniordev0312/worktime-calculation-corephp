@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 $date_time = date("H:i:s");
 $date_day = date("Y-m-d");
 
-$sql = "SELECT TIME_START, WORK_DATE, HOURS_WORK, HOURS_TOTAL from cm_ho_working_plans WHERE STAFF_ID = '{$_GET["id"]}' AND WORK_DATE='$date_day'";
+$sql = "SELECT TIME_START, TIME_END, WORK_DATE, HOURS_WORK, HOURS_TOTAL from cm_ho_working_plans WHERE STAFF_ID = '{$_GET["id"]}' AND WORK_DATE='$date_day'";
 
 $result = $conn->query($sql);
 
@@ -37,11 +37,15 @@ if ($result->num_rows > 0) {
     }
     $current_hour = floor($current_hours);
     $current_mintues = floor(($current_hours - $current_hour) * 60);
-    // if($current_mintues == 0) {
-    //   echo $current_hour . " hours timetracked!";
-    // } else {
-      echo $row['TIME_END'] . " hours " .$current_mintues. " minutes timetracked!";
-    // }
+    if($current_mintues == 0) {
+      echo $current_hour . " hours timetracked!";
+    } else if($current_hour == 0) {
+      echo $current_mintues. " minutes timetracked!";
+
+    } else {
+      echo $current_hour . " hours " .$current_mintues. " minutes timetracked!";
+
+    }
   }
 } else {
   echo "0 results";
