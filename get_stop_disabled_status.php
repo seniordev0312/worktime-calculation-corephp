@@ -1,7 +1,8 @@
 <?php
 
 include('db.php');
-   
+date_default_timezone_set('Europe/London');
+
   // Connection
   $conn = new mysqli($servername,$username, $password, $databasename);
    

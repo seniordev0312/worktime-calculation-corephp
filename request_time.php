@@ -6,6 +6,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 include('db.php');
+date_default_timezone_set('Europe/London');
 
 $date_day = date("Y-m-d");
 

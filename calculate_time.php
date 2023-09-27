@@ -23,11 +23,14 @@ if ($result->num_rows > 0) {
   // output data of each row
   while($row = $result->fetch_assoc()) {
     $hours_work;
+    $request_hour;
+    if($row['HOURS_TOTAL'] == null) $request_hour = 0;
+    else $request_hour = $row['HOURS_TOTAL'];
     if($row['HOURS_WORK'] == null) $hours_work = 0;
     else $hours_work = $row['HOURS_WORK'];
     $current_hours = round(abs(strtotime($date_time) - strtotime($row['TIME_START'])) / 3600) + $hours_work;
-    if($current_hours > 9 + $hours_work) {
-      $current_hours = 8 + $hours_work;
+    if($current_hours > 9 + $request_hour) {
+      $current_hours = 8 + $request_hour;
     }
     $current_hour = abs($current_hours);
     $current_mintues = $current_hours - $current_hour;
