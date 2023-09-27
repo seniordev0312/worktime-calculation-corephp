@@ -23,6 +23,9 @@ for($i = 0; $i < count($_GET['sid']); $i ++) {
     while($row = $result->fetch_assoc()) {
       if($row['WORK_DATE'] == date("Y-m-d")) {
         $status = "1";
+        if($row['TIME_START'] == null) {
+          $status = "0";
+        }
         break;
       } else {
         continue;
