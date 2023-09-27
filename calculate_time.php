@@ -36,7 +36,7 @@ if ($result->num_rows > 0) {
       $current_hours = $hours_work;
     }
     $current_hour = floor($current_hours);
-    $current_mintues = ($current_hours - $current_hour) * 60;
+    $current_mintues = floor(($current_hours - $current_hour) * 60);
     // if($current_mintues == 0) {
     //   echo $current_hour . " hours timetracked!";
     // } else {
