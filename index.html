@@ -663,7 +663,7 @@ function displayReportTable (report_table_id) {
         timetracked_hours = 9;
         overtime_hours = total_hours - 9;
       } else {
-        timetracked_hours += 9.25;
+        timetracked_hours = total_hours;
         overtime_hours = total_hours - timetracked_hours;
       }
     }
