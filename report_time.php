@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 $date_time = date("h:i:s");
 $date_day = date("Y-m-d");
 
-$sql = "SELECT * from cm_ho_working_plans WHERE STAFF_ID = '{$_GET["id"]}'";
+$sql = "SELECT * from cm_ho_working_plans WHERE STAFF_ID = '{$_GET["id"]}' ORDER BY WORK_DATE DESC";
 
 $result = $conn->query($sql);
 
