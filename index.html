@@ -1059,7 +1059,7 @@ function approveRequest(approve_id) {
         };
         $.ajax({
           type: "GET",
-          url: 'request_time.php',
+          url: 'approve_time.php',
           data: data,
           success: function(response) {
             console.log("response==>", response)

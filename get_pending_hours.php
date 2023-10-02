@@ -14,7 +14,7 @@ if($_POST['id']) {
         . $conn->connect_error);
   };
 
-  $getQuery = "SELECT * FROM cm_ho_working_report_plans WHERE STAFF_ID = '{$_POST['id']}'";
+  $getQuery = "SELECT * FROM cm_ho_working_report_plans WHERE STAFF_ID = '{$_POST['id']}' AND STATUS = 'pending'";
 
   $result = $conn->query($getQuery);
 
@@ -23,8 +23,6 @@ if($_POST['id']) {
       echo json_encode($row);
     }
   }
-
-  
 }
 
 ?>
