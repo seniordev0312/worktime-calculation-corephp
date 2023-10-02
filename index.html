@@ -15,14 +15,15 @@
     <div class="mt-8 flow-root">
       <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-          <div class="w-full flex justify-center">
+          <div class="w-full flex relative">
             <button
-            type="button"
-            onclick="refresh()"
-            class="rounded-md disabled:opacity-25 mb-5 ml-auto mr-auto bg-slate-50 px-10 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-200"
-          >
-            Refresh
-          </button>
+              type="button"
+              onclick="refresh()"
+              class="rounded-md disabled:opacity-25 mb-5 ml-auto mr-auto bg-slate-50 px-10 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-200"
+            >
+              Refresh
+            </button>
+
           </div>
           <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
             
@@ -52,6 +53,9 @@
                   </th>
                   <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">
                     Time Report
+                  </th>
+                  <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">
+                    Requested Time
                   </th>
                 </tr>
               </thead>
@@ -174,6 +178,15 @@ function displayContent() {
           class="rounded-md disabled:opacity-25 bg-slate-50 px-10 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-200"
         >
           TimeTrack
+        </button>
+      </td>
+      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+        <button
+          type="button"
+          onclick="openApproveModal(${item.SID})"
+          class="rounded-md disabled:opacity-25 bg-slate-50 px-10 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-200"
+        >
+           View List
         </button>
       </td>
     </tr>
@@ -831,6 +844,7 @@ function displayReportTable (report_table_id) {
                   <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">
                     Timetracked Hours
                   </th>
+                  
                 </tr>
               </thead><tbody class="divide-y text-center divide-gray-200 bg-white">
                 ${htmlContent} ${sumHTML}
@@ -866,8 +880,6 @@ function closeTimeTrackModal() {
   document.getElementById("modal").innerHTML = '';
 }
 
-
-
 function openReportModal(staff_id, report_id) {
   $.ajax({
     url: "report_time.php",
@@ -894,7 +906,6 @@ function openReportModal(staff_id, report_id) {
       displayReportTable(report_id);
     },
     error: function(xhr) {
-      //Do Something to handle error
     }
   });
 }
@@ -908,9 +919,159 @@ function refresh() {
   location.reload();
 }
 
+function openApproveModal(staff_id) {
+  const approveTable = document.getElementById("modal");
+
+  let first_name, last_name;
+
+  result_array.map((item, i) => {
+    if(item.SID == staff_id) {
+      first_name = item.NAME_FIRST;
+      last_name = item.NAME_LAST;
+    }  
+  })
+
+  console.log(first_name, last_name)
+
+  $.ajax({
+    url: "get_pending_hours.php",
+    type: "POST", 
+    data: { 
+      id: staff_id, 
+    },
+    success: function(response) {
+      let i = 0;
+      let indexStart;
+      let indexEnd;
+      let approveTable = [];
+      while (i < response.length) {
+        if (response[i] == '{') {
+          indexStart = i;
+        }
+        if (response[i] == '}') {
+          indexEnd = i;
+          const text = JSON.parse(response.slice(indexStart, indexEnd + 1));
+          approveTable.push(text);
+        }
+        i++;
+      }
+      console.log("success ", approveTable);
+
+      const htmlContent = approveTable.map((item, i) => {
+        return `
+        <tr>
+          <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
+            ${1 + i}
+          </td>
+          <td class="whitespace-nowrap px-3 py-4 text-sm font-semibold w-[20%]">
+            ${first_name + " " + last_name }
+          </td>
+          <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">`+  `
+            ${item.WORK_DATE}
+          </td>
+          <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+            ${item.HOURS_TOTAL}
+          </td>
+          <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+            <button
+              type="button"
+              onclick="approveRequest(${item.id})"
+              class="rounded-md disabled:opacity-25 bg-slate-50 px-10 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-200"
+            >
+              Approve
+            </button>
+          </td>
+        </tr>
+        `;
+      })
+
+      const htmlBody = `
+        <table class="overflow-hidden shadow ring-1 mt-5 ring-black ring-opacity-5 sm:rounded-lg min-w-full divide-y divide-gray-300"><thead class="bg-gray-50">
+          <tr class="text-center">
+            <th scope="col" class="py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
+              No
+            </th>
+            <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">
+              Staff Name
+            </th>
+            <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">
+              Date
+            </th>
+            <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">
+              Requested Hours
+            </th>       
+            <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">
+              Approve
+            </th>   
+          </tr>
+        </thead><tbody class="divide-y text-center divide-gray-200 bg-white">
+        ${htmlContent} 
+        </tbody></table>
+      `;
+      document.getElementById("modal").innerHTML = htmlBody;
+
+    }
+  })
+}
+
+function approveRequest(approve_id) {
+  $.ajax({
+    url: "approve_request.php",
+    type: "POST", //send it through post method
+    data: { 
+      id: approve_id, 
+    },
+    success: function(response) {
+      let i = 0;
+      let indexStart;
+      let indexEnd;
+      let approve_data;
+      while (i < response.length) {
+        if (response[i] == '{') {
+          indexStart = i;
+        }
+        if (response[i] == '}') {
+          indexEnd = i;
+          approve_data = JSON.parse(response.slice(indexStart, indexEnd + 1));
+        }
+        i++;
+      }
+
+      console.log("approve request", approve_data);
+
+      let first_name, last_name;
+
+      result_array.map((item, i) => {
+        if(item.SID == approve_data.STAFF_ID) {
+          first_name = item.NAME_FIRST;
+          last_name = item.NAME_LAST;
+        }  
+      })
+
+
+        const name = first_name;
+        const surname = last_name;
+        const hours = approve_data.HOURS_TOTAL;
+        const date = approve_data.WORK_DATE;
+        
+        const data = {
+          id: approve_data.STAFF_ID, name, surname, hours, date
+        };
+        $.ajax({
+          type: "GET",
+          url: 'request_time.php',
+          data: data,
+          success: function(response) {
+            console.log("response==>", response)
+            alert(response);
+            location.reload();
+          }
+        });
+    }
+  })
+}
+
 </script>
-
-
 
 </html>
 
