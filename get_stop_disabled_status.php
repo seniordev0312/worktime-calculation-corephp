@@ -16,7 +16,7 @@ date_default_timezone_set('Europe/London');
 for($i = 0; $i < count($_GET['sid']); $i ++) {
 
   $id = $_GET['sid'][$i];
-  $sql = "SELECT * FROM cm_ho_working_plans WHERE STAFF_ID = '{$id}'";
+  $sql = "SELECT * FROM cm_ho_working_plan_data WHERE STAFF_ID = '{$id}'";
   $result = $conn->query($sql);
   $status = "0";
   if($result->num_rows > 0) {

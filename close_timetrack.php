@@ -17,7 +17,7 @@ if($_POST['id']) {
   $date_time = date("H:i:s");
   $date_day = date("Y-m-d");
 
-  $sql_select = "SELECT * FROM cm_ho_working_plans WHERE STAFF_ID = '{$_POST['id']}' AND WORK_DATE = '$date_day'";
+  $sql_select = "SELECT * FROM cm_ho_working_plan_data WHERE STAFF_ID = '{$_POST['id']}' AND WORK_DATE = '$date_day'";
   $result_select = $conn->query($sql_select);
   if ($result_select->num_rows > 0) {
     while ($row = $result_select->fetch_assoc()) {
@@ -36,7 +36,7 @@ if($_POST['id']) {
       $worked_hours = $work_hours + $row['HOURS_WORK'];
       
       // Update the row in the database
-      $updateQuery = "UPDATE cm_ho_working_plans SET HOURS_WORK='$worked_hours', TIME_END='$date_time' WHERE STAFF_ID ='{$_POST['id']}' AND WORK_DATE = '$date_day'";
+      $updateQuery = "UPDATE cm_ho_working_plan_data SET HOURS_WORK='$worked_hours', TIME_END='$date_time' WHERE STAFF_ID ='{$_POST['id']}' AND WORK_DATE = '$date_day'";
       $updateResult = $conn->query($updateQuery);
       
       if (!$updateResult) {

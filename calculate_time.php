@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 $date_time = date("H:i:s");
 $date_day = date("Y-m-d");
 
-$sql = "SELECT TIME_START, TIME_END, WORK_DATE, HOURS_WORK, HOURS_TOTAL from cm_ho_working_plans WHERE STAFF_ID = '{$_GET["id"]}' AND WORK_DATE='$date_day'";
+$sql = "SELECT TIME_START, TIME_END, WORK_DATE, HOURS_WORK, HOURS_TOTAL from cm_ho_working_plan_data WHERE STAFF_ID = '{$_GET["id"]}' AND WORK_DATE='$date_day'";
 
 $result = $conn->query($sql);
 

@@ -16,12 +16,12 @@ if($_POST['id']) {
   }
   $date_time = date("H:i:s");
   $date_day = date("Y-m-d");
-  $sql_check = "SELECT * FROM cm_ho_working_plans WHERE STAFF_ID = '{$_POST["id"]}' AND WORK_DATE = '{$date_day}'";
+  $sql_check = "SELECT * FROM cm_ho_working_plan_data WHERE STAFF_ID = '{$_POST["id"]}' AND WORK_DATE = '{$date_day}'";
   $result_check = $conn->query($sql_check);
   echo $result_check->num_rows;
   if($result_check->num_rows > 0) {
     $id = (int) $_POST["id"];
-    $updateQuery = "UPDATE cm_ho_working_plans SET TIME_START = '{$date_time}' WHERE STAFF_ID = '{$id}' AND WORK_DATE = '{$date_day}'";
+    $updateQuery = "UPDATE cm_ho_working_plan_data SET TIME_START = '{$date_time}' WHERE STAFF_ID = '{$id}' AND WORK_DATE = '{$date_day}'";
     $result = $conn->query($updateQuery);
     if (!$result) {
       echo $result;
@@ -31,7 +31,7 @@ if($_POST['id']) {
     
 
   } else {
-    $sql = "INSERT INTO cm_ho_working_plans (STAFF_ID, WORK_DATE, TIME_START) VALUES ('{$_POST["id"]}', '{$date_day}', '{$date_time}')";
+    $sql = "INSERT INTO cm_ho_working_plan_data (STAFF_ID, WORK_DATE, TIME_START) VALUES ('{$_POST["id"]}', '{$date_day}', '{$date_time}')";
     $result = $conn->query($sql);
     if (!$result) {
       echo $conn->error;
